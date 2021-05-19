@@ -1,6 +1,6 @@
 class piece {
     constructor(owner, value, name) {
-        has_moved = false;
+        hasMoved = false;
         const owner = owner; 
         const value = value; //point value of the piece, int
         const name = name;
@@ -77,6 +77,32 @@ class board {
                     }
                 }
             }
+        }
+    }
+    //TODO implement pin check
+    //TODO implement check check
+    //TODO implement piece movement rules
+    //TODO implement path checking
+    //TODO implement en passant check - will require knowledge of previous move
+    //TODO implement a castle check 
+    
+    //WHEN PASSING TO FUNCTION REMEMBER TO PASS IN THE ORDER [RANK][FILE], UNLIKE A CHESS MOVE
+    //That is, the square C2 would be passed as [1][2] (because of zero indexing)
+
+    //This function checks that a move is legal, and returns an integer response indicating why a move isn't legal
+    //if that is the case 
+    check_move(initRank, initFile, destRank, destFile) {
+        if(!chessboard[initRank][initFile].myPiece){ //make sure that there is a piece at the initial square
+            return -1; //no piece error
+        }
+        if(destRank > 7 || destRank < 0 || destFile > 7 || destFile < 0) {
+            return -2; //out of board bounds error
+        }
+        if(destRank == initRank && destFile == initFile) {
+            return -3; //the move isn't a move error
+        }
+        if(chessboard[destRank][destFile].myPiece.owner == chessboard[initRank][initFile].myPiece.owner) {
+            return -4; //self-capture error - cannot capture own pieces 
         }
     }
 }
