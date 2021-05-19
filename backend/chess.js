@@ -34,6 +34,26 @@ class board {
                 chessboard[i][k].myPiece = null;
             }
         }
-        
+        for(i = 0; i < 8; ++i) {
+            for(k = 0; k < 8; ++i) {
+                if(i == 0) {//rank is 1, white backrank 
+                    if(k == 0 || k == 7) {// A1 and H1, white rooks
+                        chessboard[i][k].myPiece = piece(true, 5, 'Rook');
+                    }
+                    if(k == 1 || k == 6) {// B1 and G1, white knights
+                        chessboard[i][k].myPiece = piece(true, 3, 'Knight');
+                    }
+                    if(k == 2 || k == 5) {// C1 and F1, white bishops
+                        chessboard[i][k].myPiece = piece(true, 3, 'Bishop');
+                    }
+                    if(k == 3) {// D1, white queen
+                        chessboard[i][k].myPiece = piece(true, 9, 'Queen');
+                    }
+                    if(k == 4) {// E1, white king
+                        chessboard[i][k].myPiece = piece(true, Infinity, 'King');
+                    }
+                }
+            }
+        }
     }
 }
