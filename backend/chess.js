@@ -111,7 +111,7 @@ class board {
         //
         // Pin check - separated because big function
         //
-        if(chessboard[initRank][initFile].myPiece.owner != 'King') { //A king cannot be pinned to itself, so skip this if king move 
+        if(chessboard[initRank][initFile].myPiece.owner != 'King') { //A king cannot be pinned to itself, so skip this if the king move 
             let kingFile = -1;
             let kingRank = -1;
             let isPinned = -1;
@@ -129,10 +129,11 @@ class board {
                     break;
                 }
             }
+
             if(kingRank == initRank) { //king and piece on the same rank
                 if(kingFile > initFile) {
                     for(i = initFile+1; i < kingFile; i++){ //check if there is a piece between the king and the moving piece, if so, not pinned
-                        if(chessboard[kingRank][i].myPiece != null) {//if the square is not empty, the moving piece is unpinned
+                        if(chessboard[kingRank][i].myPiece != null) { //if the square is not empty, the moving piece is unpinned
                             isPinned = 0; //Not pinned
                         }
                         if(isPinned != -1) {
@@ -140,7 +141,7 @@ class board {
                         }
                     }
                     if(isPinned == -1) { //there is not a piece in between, continue with pin check 
-                        for(i = initFile-1; i >= 0; i--) {//look at the squares on the side of the piece opposite the king for enemy rooks 
+                        for(i = initFile-1; i >= 0; i--) { //look at the squares on the side of the piece opposite the king for enemy rooks 
                             if(chessboard[kingRank][i].myPiece != null) {
                                 if((chessboard[kingRank][i].myPiece.name == 'Rook' || chessboard[kingRank][i].myPiece.name == 'Queen') && chessboard[kingRank][i].myPiece.owner != color) { //checks for enemy rook or queen
                                     return -5; //piece is pinned, move invalid 
@@ -177,6 +178,7 @@ class board {
                 
 
             }
+
             else if(kingFile == initFile && isPinned != -1) { //king and piece on the same file
                 if(kingRank > initRank) {
                     for(i = initRank+1; i < kingRank; i++){ //check if there is a piece between the king and the moving piece, if so, not pinned
@@ -224,10 +226,12 @@ class board {
                     }
         
             }
+
             else if(isPinned != -1) { //Now that we've checked the ranks and files, check for the king and piece sharing a diagonal 
                 let rankDiff = kingRank - initRank;
                 let fileDiff = kingFile - initFile;
                 if(rankDiff == fileDiff || rankDiff == -fileDiff) {//if the pieces are separated by the same number of squares on both rank and file, they're on a diagonal
+                   
                     if(rankDiff > 0 && fileDiff > 0) { //positive rank and file diff
                         for(i = initRank+1; i < kingRank; ++i) {
                             for(k = initFile+1; k < kingFile; ++k) {
@@ -241,8 +245,27 @@ class board {
                                 break;
                             }
                         }
+                        if(isPinned != -1) {//check the opposite diagonal direction if there's not a piece in between
+                            for(i = initRank-1; i >= 0; --i) {
+                                for(k = initFile-1; i >=0; --i) {
+                                    if(chessboard[i][k].myPiece != null) { //check that the square is not empty
+                                        if((chessboard[i][k].myPiece.name == 'Bishop' || chessboard[i][k].myPiece.name == 'Queen') && chessboard[i][k].myPiece.owner != color) {
+                                            return -5; //piece is pinned 
+                                        }
+                                        else {
+                                            isPinned = 0;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if(isPinned != -1) {
+                                    break;
+                                }
+                            }
+                        }
                     }
-                    else if(rankDiff > 0 && fileDiff < 0) { //positive rank, negative file
+                   
+                    else if(rankDiff > 0 && fileDiff < 0) { //positive rank diff, negative file diff
                         for(i = initRank+1; i < kingRank; ++i) {
                             for(k = initFile-1; k > kingFile; --k) {
                                 if(chessboard[i][k].myPiece != null) { // there is a piece on the diagonal between the king and the piece
@@ -255,8 +278,27 @@ class board {
                                 break;
                             }
                         }
+                        if(isPinned != -1) {//check the opposite diagonal direction if there's not a piece in between
+                            for(i = initRank-1; i >= 0; --i) {
+                                for(k = initFile+1; i < 8; ++i) {
+                                    if(chessboard[i][k].myPiece != null) { //check that the square is not empty
+                                        if((chessboard[i][k].myPiece.name == 'Bishop' || chessboard[i][k].myPiece.name == 'Queen') && chessboard[i][k].myPiece.owner != color) {
+                                            return -5; //piece is pinned 
+                                        }
+                                        else {
+                                            isPinned = 0;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if(isPinned != -1) {
+                                    break;
+                                }
+                            }
+                        }
                     }
-                    else if(rankDiff < 0 && fileDiff > 0) { //negative rank, positive file
+                    
+                    else if(rankDiff < 0 && fileDiff > 0) { //negative rank diff, positive file diff
                         for(i = initRank-1; i > kingRank; --i) {
                             for(k = initFile+1; k < kingFile; ++k) {
                                 if(chessboard[i][k].myPiece != null) { // there is a piece on the diagonal between the king and the piece
@@ -269,8 +311,27 @@ class board {
                                 break;
                             }
                         }
+                        if(isPinned != -1) {//check the opposite diagonal direction if there's not a piece in between
+                            for(i = initRank+1; i < 8; ++i) {
+                                for(k = initFile-1; i >= 0; --i) {
+                                    if(chessboard[i][k].myPiece != null) { //check that the square is not empty
+                                        if((chessboard[i][k].myPiece.name == 'Bishop' || chessboard[i][k].myPiece.name == 'Queen') && chessboard[i][k].myPiece.owner != color) {
+                                            return -5; //piece is pinned 
+                                        }
+                                        else {
+                                            isPinned = 0;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if(isPinned != -1) {
+                                    break;
+                                }
+                            }
+                        }
                     }
-                    else if(rankDiff < 0 && fileDiff < 0) { //negative rank and file 
+                   
+                    else if(rankDiff < 0 && fileDiff < 0) { //negative rank and file diff
                         for(i = initRank-1; i > kingRank; --i) {
                             for(k = initFile-1; k > kingFile; --k) {
                                 if(chessboard[i][k].myPiece != null) { // there is a piece on the diagonal between the king and the piece
@@ -283,6 +344,24 @@ class board {
                                 break;
                             }
                         }
+                        if(isPinned != -1) {//check the opposite diagonal direction if there's not a piece in between
+                            for(i = initRank+1; i < 8; ++i) {
+                                for(k = initFile+1; i < 8; ++i) {
+                                    if(chessboard[i][k].myPiece != null) { //check that the square is not empty
+                                        if((chessboard[i][k].myPiece.name == 'Bishop' || chessboard[i][k].myPiece.name == 'Queen') && chessboard[i][k].myPiece.owner != color) {
+                                            return -5; //piece is pinned 
+                                        }
+                                        else {
+                                            isPinned = 0;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if(isPinned != -1) {
+                                    break;
+                                }
+                            }
+                        }
                     }
 
                 }
@@ -291,7 +370,7 @@ class board {
                 }
             }
 
-       }
-
+        }
+    
     }
 }
