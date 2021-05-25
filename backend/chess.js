@@ -227,7 +227,63 @@ class board {
             else if(isPinned != -1) { //Now that we've checked the ranks and files, check for the king and piece sharing a diagonal 
                 let rankDiff = kingRank - initRank;
                 let fileDiff = kingFile - initFile;
-                if(rankDiff == fileDiff || rankDiff == -fileDiff) {
+                if(rankDiff == fileDiff || rankDiff == -fileDiff) {//if the pieces are separated by the same number of squares on both rank and file, they're on a diagonal
+                    if(rankDiff > 0 && fileDiff > 0) { //positive rank and file diff
+                        for(i = initRank+1; i < kingRank; ++i) {
+                            for(k = initFile+1; k < kingFile; ++k) {
+                                if(chessboard[i][k].myPiece != null) { // there is a piece on the diagonal between the king and the piece
+                                    isPinned = 0;
+                                    break;
+                                }
+
+                            }
+                            if(isPinned != -1) {
+                                break;
+                            }
+                        }
+                    }
+                    else if(rankDiff > 0 && fileDiff < 0) { //positive rank, negative file
+                        for(i = initRank+1; i < kingRank; ++i) {
+                            for(k = initFile-1; k > kingFile; --k) {
+                                if(chessboard[i][k].myPiece != null) { // there is a piece on the diagonal between the king and the piece
+                                    isPinned = 0;
+                                    break;
+                                }
+
+                            }
+                            if(isPinned != -1) {
+                                break;
+                            }
+                        }
+                    }
+                    else if(rankDiff < 0 && fileDiff > 0) { //negative rank, positive file
+                        for(i = initRank-1; i > kingRank; --i) {
+                            for(k = initFile+1; k < kingFile; ++k) {
+                                if(chessboard[i][k].myPiece != null) { // there is a piece on the diagonal between the king and the piece
+                                    isPinned = 0;
+                                    break;
+                                }
+
+                            }
+                            if(isPinned != -1) {
+                                break;
+                            }
+                        }
+                    }
+                    else if(rankDiff < 0 && fileDiff < 0) { //negative rank and file 
+                        for(i = initRank-1; i > kingRank; --i) {
+                            for(k = initFile-1; k > kingFile; --k) {
+                                if(chessboard[i][k].myPiece != null) { // there is a piece on the diagonal between the king and the piece
+                                    isPinned = 0;
+                                    break;
+                                }
+
+                            }
+                            if(isPinned != -1) {
+                                break;
+                            }
+                        }
+                    }
 
                 }
                 else {
