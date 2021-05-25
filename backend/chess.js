@@ -151,7 +151,8 @@ class board {
                             }
                         }
                     }
-                    if(kingFile < initFile) {
+                }
+                if(kingFile < initFile) {
                         for(i = initFile-1; i > kingFile; i--){ //check if there is a piece between the king and the moving piece, if so, not pinned
                             if(chessboard[kingRank][i].myPiece != null) {//if the square is not empty, the moving piece is unpinned
                                 isPinned = 0; //Not pinned
@@ -198,7 +199,8 @@ class board {
                             }
                         }
                     }
-                    if(kingRank < initRank) {
+                }
+                if(kingRank < initRank) {
                         for(i = kingRank-1; i > kingRank; i--){ //check if there is a piece between the king and the moving piece, if so, not pinned
                             if(chessboard[i][kingFile].myPiece != null) {//if the square is not empty, the moving piece is unpinned
                                 isPinned = 0; //Not pinned
@@ -220,9 +222,17 @@ class board {
                             }
                         }
                     }
+        
             }
-            else if(isPinned != -1) { //Check for the king and piece sharing a diagonal 
+            else if(isPinned != -1) { //Now that we've checked the ranks and files, check for the king and piece sharing a diagonal 
+                let rankDiff = kingRank - initRank;
+                let fileDiff = kingFile - initFile;
+                if(rankDiff == fileDiff || rankDiff == -fileDiff) {
 
+                }
+                else {
+                    isPinned = 0;
+                }
             }
 
        }
