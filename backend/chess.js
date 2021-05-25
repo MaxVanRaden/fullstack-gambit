@@ -87,11 +87,15 @@ class board {
     //TODO implement a castle check 
     
     //WHEN PASSING TO FUNCTION REMEMBER TO PASS IN THE ORDER [RANK][FILE], UNLIKE A CHESS MOVE
-    //That is, the square C2 would be passed as [1][2] (because of zero indexing)
+    //That is, the square C2 would be passed as [1][2] (because of zero indexing, C is 2 and 2 is 1)
 
     //This function checks that a move is legal, and returns an integer response indicating why a move isn't legal
-    //if that is the case 
-    check_move(initRank, initFile, destRank, destFile) {
+    //if that is the case
+
+    //initRank and initFile describe origin point of moving piece, destRank and destFile describe intended location
+    //color represents the color of the player that is making the move, and enPassantRank and enPassantFile indicate
+    //the position of a pawn that is valid for en passant capture 
+    check_move(initRank, initFile, destRank, destFile, color, enPassantRank, enPassantFile) {
         if(!chessboard[initRank][initFile].myPiece){ //make sure that there is a piece at the initial square
             return -1; //no piece error
         }
@@ -104,5 +108,124 @@ class board {
         if(chessboard[destRank][destFile].myPiece.owner == chessboard[initRank][initFile].myPiece.owner) {
             return -4; //self-capture error - cannot capture own pieces 
         }
+        //
+        // Pin check - separated because big function
+        //
+        if(chessboard[initRank][initFile].myPiece.owner != 'King') { //A king cannot be pinned to itself, so skip this if king move 
+            let kingFile = -1;
+            let kingRank = -1;
+            let isPinned = -1;
+            for(i = 0; i < 8; i++){ //Step one, locate the same side king by iterating through board
+                for(k = 0; k < 8; k++) {
+                    if(chessboard[i][k].myPiece != null){
+                        if(chessboard[i][k].myPiece.name == 'King' && chessboard[i][k].myPiece.owner == chessboard[initRank][initFile].myPiece.owner) { //locate same side king 
+                            kingRank = i;
+                            kingFile = k; 
+                            break;       
+                        }
+                    }
+                }
+                if(kingFile != -1) {//stop looping once king is found
+                    break;
+                }
+            }
+            if(kingRank == initRank) { //king and piece on the same rank
+                if(kingFile > initFile) {
+                    for(i = initFile+1; i < kingFile; i++){ //check if there is a piece between the king and the moving piece, if so, not pinned
+                        if(chessboard[kingRank][i].myPiece != null) {//if the square is not empty, the moving piece is unpinned
+                            isPinned = 0; //Not pinned
+                        }
+                        if(isPinned != -1) {
+                            break;
+                        }
+                    }
+                    if(isPinned == -1) { //there is not a piece in between, continue with pin check 
+                        for(i = initFile-1; i >= 0; i--) {//look at the squares on the side of the piece opposite the king for enemy rooks 
+                            if(chessboard[kingRank][i].myPiece != null) {
+                                if((chessboard[kingRank][i].myPiece.name == 'Rook' || chessboard[kingRank][i].myPiece.name == 'Queen') && chessboard[kingRank][i].myPiece.owner != color) { //checks for enemy rook or queen
+                                    return -5; //piece is pinned, move invalid 
+                                }
+                                else {
+                                    isPinned = 0; //a non-rook or queen piece is blocking line of sight from any potential rooks or queens, piece is not pinned 
+                                }
+                            }
+                        }
+                    }
+                    if(kingFile < initFile) {
+                        for(i = initFile-1; i > kingFile; i--){ //check if there is a piece between the king and the moving piece, if so, not pinned
+                            if(chessboard[kingRank][i].myPiece != null) {//if the square is not empty, the moving piece is unpinned
+                                isPinned = 0; //Not pinned
+                            }
+                            if(isPinned != -1) {
+                                break;
+                            }
+                        }
+                        if(isPinned == -1) { //there is not a piece in between, continue with pin check 
+                            for(i = initFile+1; i < 8; i++) {//look at the squares on the side of the piece opposite the king for enemy rooks 
+                                if(chessboard[kingRank][i].myPiece != null) {
+                                    if((chessboard[kingRank][i].myPiece.name == 'Rook' || chessboard[kingRank][i].myPiece.name == 'Queen') && chessboard[kingRank][i].myPiece.owner != color) { //checks for enemy rook or queen
+                                        return -5; //piece is pinned, move invalid 
+                                    }
+                                    else {
+                                        isPinned = 0; //a non-rook or queen piece is blocking line of sight from any potential rooks or queens, piece is not pinned 
+                                    }
+                                }
+                            }
+                        }
+                }
+                
+
+            }
+            else if(kingFile == initFile && isPinned != -1) { //king and piece on the same file
+                if(kingRank > initRank) {
+                    for(i = initRank+1; i < kingRank; i++){ //check if there is a piece between the king and the moving piece, if so, not pinned
+                        if(chessboard[i][kingFile].myPiece != null) {//if the square is not empty, the moving piece is unpinned
+                            isPinned = 0; //Not pinned
+                        }
+                        if(isPinned != -1) {
+                            break;
+                        }
+                    }
+                    if(isPinned == -1) { //there is not a piece in between, continue with pin check 
+                        for(i = initRank-1; i >= 0; i--) {//look at the squares on the side of the piece opposite the king for enemy rooks 
+                            if(chessboard[i][kingFile].myPiece != null) {
+                                if((chessboard[i][kingFile].myPiece.name == 'Rook' || chessboard[i][kingFile].myPiece.name == 'Queen') && chessboard[i][kingFile].myPiece.owner != color) { //checks for enemy rook or queen
+                                    return -5; //piece is pinned, move invalid 
+                                }
+                                else {
+                                    isPinned = 0; //a non-rook or queen piece is blocking line of sight from any potential rooks or queens, piece is not pinned 
+                                }
+                            }
+                        }
+                    }
+                    if(kingRank < initRank) {
+                        for(i = kingRank-1; i > kingRank; i--){ //check if there is a piece between the king and the moving piece, if so, not pinned
+                            if(chessboard[i][kingFile].myPiece != null) {//if the square is not empty, the moving piece is unpinned
+                                isPinned = 0; //Not pinned
+                            }
+                            if(isPinned != -1) {
+                                break;
+                            }
+                        }
+                        if(isPinned == -1) { //there is not a piece in between, continue with pin check 
+                            for(i = initRank+1; i <= 7; i++) {//look at the squares on the side of the piece opposite the king for enemy rooks 
+                                if(chessboard[i][kingFile].myPiece != null) {
+                                    if((chessboard[i][kingFile].myPiece.name == 'Rook' || chessboard[i][kingFile].myPiece.name == 'Queen') && chessboard[i][kingFile].myPiece.owner != color) { //checks for enemy rook or queen
+                                        return -5; //piece is pinned, move invalid 
+                                    }
+                                    else {
+                                        isPinned = 0; //a non-rook or queen piece is blocking line of sight from any potential rooks or queens, piece is not pinned 
+                                    }
+                                }
+                            }
+                        }
+                    }
+            }
+            else if(isPinned != -1) { //Check for the king and piece sharing a diagonal 
+
+            }
+
+       }
+
     }
 }
