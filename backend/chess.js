@@ -435,7 +435,55 @@ class board {
             }
 
             //Check the diagonals 
-            
+            for(i = kingRank+1; i < 8; ++i){
+                for(k = kingFile+1; k < 8; ++k) {
+                    if(chessboard[i][k].myPiece != null) {
+                        if((chessboard[i][k].myPiece.name == 'Bishop' || chessboard[i][k].myPiece.name == 'Queen') && chessboard[i][k].myPiece.owner != color) {
+                            return -6; //king is in check 
+                        }
+                        else {//king is not in check in this direction
+                            break;
+                        }
+                    }
+                }
+            }
+            for(i = kingRank-1; i >= 0; --i){
+                for(k = kingFile+1; k < 8; ++k) {
+                    if(chessboard[i][k].myPiece != null) {
+                        if((chessboard[i][k].myPiece.name == 'Bishop' || chessboard[i][k].myPiece.name == 'Queen') && chessboard[i][k].myPiece.owner != color) {
+                            return -6; //king is in check 
+                        }
+                        else {//king is not in check in this direction
+                            break;
+                        }
+                    }
+                }
+            }
+            for(i = kingRank+1; i < 8; ++i){
+                for(k = kingFile-1; k >= 0; --k) {
+                    if(chessboard[i][k].myPiece != null) {
+                        if((chessboard[i][k].myPiece.name == 'Bishop' || chessboard[i][k].myPiece.name == 'Queen') && chessboard[i][k].myPiece.owner != color) {
+                            return -6; //king is in check 
+                        }
+                        else {//king is not in check in this direction
+                            break;
+                        }
+                    }
+                }
+            }
+            for(i = kingRank-1; i >= 0; --i){
+                for(k = kingFile-1; k >= 0; --k) {
+                    if(chessboard[i][k].myPiece != null) {
+                        if((chessboard[i][k].myPiece.name == 'Bishop' || chessboard[i][k].myPiece.name == 'Queen') && chessboard[i][k].myPiece.owner != color) {
+                            return -6; //king is in check 
+                        }
+                        else if(chessboard[i][k].myPiece.name == 'Pawn' && chessboard[i][k].myPiece.owner != color && color == true && )
+                        else {//king is not in check in this direction
+                            break;
+                        }
+                    }
+                }
+            }
         }
         else { //if the piece being moved is the king, check that the king's new square isn't threatened 
 
