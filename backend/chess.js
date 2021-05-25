@@ -371,6 +371,76 @@ class board {
             }
 
         }
+        //
+        // Check check - separated because big function
+        //
+        if(chessboard[initRank][initFile].myPiece.owner != 'King') {//if the piece being moved isn't a king, check that the king isn't currently in check
+            let kingRank = -1;
+            let kingFile = -1;
+            for(i = 0; i < 8; i++) { //Step one, locate the same side king by iterating through board
+                for(k = 0; k < 8; k++) {
+                    if(chessboard[i][k].myPiece != null){
+                        if(chessboard[i][k].myPiece.name == 'King' && chessboard[i][k].myPiece.owner == color) { //locate same side king 
+                            kingRank = i;
+                            kingFile = k; 
+                            break;       
+                        }
+                    }
+                }
+                if(kingFile != -1) {//stop looping once king is found
+                    break;
+                }
+            }
+            
+            //check the rank and file directions (horizontal and vertical lines for check threats)
+            for(i = kingRank+1; i < 8; ++i) {
+                if(chessboard[i][kingFile].myPiece != null) {
+                    if((chessboard[i][kingFile].myPiece.name == 'Rook' || chessboard[i][kingFile].myPiece.name == 'Queen') && chessboard[i][kingFile].myPiece.owner != color) {
+                        return -6; //king is in check 
+                    }
+                    else {//king is not in check in this direction
+                        break;
+                    }
+                }
+            }
+            for(i = kingRank-1; i >= 0; --i) {
+                if(chessboard[i][kingFile].myPiece != null) {
+                    if((chessboard[i][kingFile].myPiece.name == 'Rook' || chessboard[i][kingFile].myPiece.name == 'Queen') && chessboard[i][kingFile].myPiece.owner != color) {
+                        return -6; //king is in check 
+                    }
+                    else {//king is not in check in this direction
+                        break;
+                    }
+                }
+            }
+            for(i = kingFile+1; i < 8; ++i) {
+                if(chessboard[kingRank][i].myPiece != null) {
+                    if((chessboard[kingRank][i].myPiece.name == 'Rook' || chessboard[kingRank][i].myPiece.name == 'Queen') && chessboard[kingRank][i].myPiece.owner != color) {
+                        return -6; //king is in check 
+                    }
+                    else {//king is not in check in this direction
+                        break;
+                    }
+                }
+            }
+            for(i = kingFile-1; i >= 0; --i) {
+                if(chessboard[kingRank][i].myPiece != null) {
+                    if((chessboard[kingRank][i].myPiece.name == 'Rook' || chessboard[kingRank][i].myPiece.name == 'Queen') && chessboard[kingRank][i].myPiece.owner != color) {
+                        return -6; //king is in check 
+                    }
+                    else {//king is not in check in this direction
+                        break;
+                    }
+                }
+            }
+
+            //Check the diagonals 
+            
+        }
+        else { //if the piece being moved is the king, check that the king's new square isn't threatened 
+
+        }
+
     
     }
 }
