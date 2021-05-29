@@ -82,8 +82,8 @@ class board {
     }
     //TODO implement pin check - Done
     //TODO implement check check - Done
-    //TODO implement piece movement rules
-    //TODO implement path checking
+    //TODO implement piece movement rules - Done
+    //TODO implement path checking - Done 
     //TODO implement en passant check - will require knowledge of previous move
     //TODO implement a castle check 
     
