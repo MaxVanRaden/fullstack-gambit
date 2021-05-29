@@ -793,7 +793,43 @@ class board {
         }
         //rook move rules
         else if(chessboard[initRank][initFile].myPiece.owner == 'Rook') {
-
+            //travelling on rank
+            if(destFile == initFile && destRank != initRank) {
+                if(destRank - initRank > 0) {
+                    for(i = initRank+1; i < destRank; i++) {
+                        if(chessboard[i][initFile].myPiece != null) {
+                            return -7; //blocking piece 
+                        }
+                    }
+                }
+                else {
+                    for(i = initRank-1; i > destRank; i--) {
+                        if(chessboard[i][initFile].myPiece != null) {
+                            return -7; //blocking piece 
+                        }
+                    }
+                }
+            }
+            //travelling on file 
+            else if(destFile != initFile && destRank == initRank) {
+                if(destFile - initFile > 0) {
+                    for(i = initFile+1; i < destFile; i++) {
+                        if(chessboard[initRank][i].myPiece != null) {
+                            return -7; //blocking piece 
+                        }
+                    }
+                }
+                else {
+                    for(i = initFile-1; i > destFile; i--) {
+                        if(chessboard[initRank][i].myPiece != null) {
+                            return -7; //blocking piece 
+                        }
+                    }
+                }
+            }
+            else {
+                return -8; //piece-specific movement error 
+            }
         }
         //queen move rules
         else if(chessboard[initRank][initFile].myPiece.owner == 'Queen') {
