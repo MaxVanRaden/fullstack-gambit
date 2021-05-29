@@ -97,7 +97,8 @@ class board {
     //color represents the color of the player that is making the move, and enPassantRank and enPassantFile indicate
     //the position of a pawn that is valid for en passant capture 
 
-    // -1 no piece, -2 out of bounds, -3 not moving, -4 self capture, -5 pinned, -6 in check, -7 blocking piece 
+    // RETURN ERROR CODES
+    // -1 no piece, -2 out of bounds, -3 not moving, -4 self capture, -5 pinned, -6 in check, -7 blocking piece, -8 piece-specific move rule, -9 unrecognized piece type 
     check_move(initRank, initFile, destRank, destFile, color, enPassantRank, enPassantFile) {
         if(!chessboard[initRank][initFile].myPiece){ //make sure that there is a piece at the initial square
             return -1; //no piece error
@@ -833,11 +834,93 @@ class board {
         }
         //queen move rules
         else if(chessboard[initRank][initFile].myPiece.owner == 'Queen') {
-
+            rankDist == initRank - destRank;
+            fileDist == initFile - destFile;
+            //bishop type movement
+            if(rankDist == fileDist || rankDist == -fileDist) {   
+                if(rankDist > 0 && fileDist > 0) {
+                    for(i = initRank+1; i < destRank; ++i){
+                        for(k == initFile+1; k < destFile; ++k) {
+                            if(chessboard[i][k].myPiece != null) {
+                                return -7; //blocking piece 
+                            }
+                        }
+                    }
+                }
+                //rank positive, file negative 
+                if(rankDist > 0 && fileDist < 0) {
+                    for(i = initRank+1; i < destRank; ++i) {
+                        for(k == initFile-1; k > destFile; --k) {
+                            if(chessboard[i][k].myPiece != null) {
+                                return -7; //blocking piece 
+                            }
+                        }
+                    }
+                }
+                //rank negative, file positive
+                if(rankDist < 0 && fileDist > 0) {
+                    for(i = initRank-1; i > destRank; --i) {
+                        for(k == initFile+1; k < destFile; ++k) {
+                            if(chessboard[i][k].myPiece != null) {
+                                return -7; //blocking piece 
+                            }
+                        }
+                    }
+                }
+                //both negative 
+                if(rankDist < 0 && fileDist < 0) {
+                    for(i = initRank-1; i < destRank; --i) {
+                        for(k == initFile-1; k < destFile; --k) {
+                            if(chessboard[i][k].myPiece != null) {
+                                return -7; //blocking piece 
+                            }
+                        }
+                    }
+                }
+            }
+            //rook type movement on Rank
+            else if(destFile == initFile && destRank != initRank) { 
+                if(destRank - initRank > 0) {
+                    for(i = initRank+1; i < destRank; i++) {
+                        if(chessboard[i][initFile].myPiece != null) {
+                            return -7; //blocking piece 
+                        }
+                    }
+                }
+                else {
+                    for(i = initRank-1; i > destRank; i--) {
+                        if(chessboard[i][initFile].myPiece != null) {
+                            return -7; //blocking piece 
+                        }
+                    }
+                }
+            }
+            //rook type movement on File 
+            else if(destFile != initFile && destRank == initRank) { 
+                if(destFile - initFile > 0) {
+                    for(i = initFile+1; i < destFile; i++) {
+                        if(chessboard[initRank][i].myPiece != null) {
+                            return -7; //blocking piece 
+                        }
+                    }
+                }
+                else {
+                    for(i = initFile-1; i > destFile; i--) {
+                        if(chessboard[initRank][i].myPiece != null) {
+                            return -7; //blocking piece 
+                        }
+                    }
+                }
+            }
+            else {
+                return -8; //piece-specific movement error
+            }
         }
         //king move rules 
         else if(chessboard[initRank][initFile].myPiece.owner == 'King') {
-
+            if(destRank > initRank+1 || destRank < initRank-1 || destFile > initFile+1 || destFile < initFile-1) {
+                return -8; //piece-specific move error 
+            }
         }
         else {
             return -9; //unrecognized piece type error
