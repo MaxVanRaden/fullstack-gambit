@@ -738,7 +738,9 @@ class board {
         }
         //knight move rules 
         else if(chessboard[initRank][initFile].myPiece.owner == 'Knight') {
-            if(((destRank != initRank+2 || destRank != initRank-2) && (deskFile != initFile+1 || destFile != initFile-1)) ||  ((destRank != initRank+1 || destRank != initRank-1) && (deskFile != initFile+2 || destFile != initFile-2)))
+            if(((destRank != initRank+2 || destRank != initRank-2) && (deskFile != initFile+1 || destFile != initFile-1)) ||  ((destRank != initRank+1 || destRank != initRank-1) && (deskFile != initFile+2 || destFile != initFile-2))) {
+                return -8; //piece-specific move error 
+            }
         }
         //bishop move rules
         else if(chessboard[initRank][initFile].myPiece.owner == 'Bishop') {
@@ -750,22 +752,44 @@ class board {
             //check for clear path
             //both positive
             if(rankDist > 0 && fileDist > 0) {
-
+                for(i = initRank+1; i < destRank; ++i){
+                    for(k == initFile+1; k < destFile; ++k) {
+                        if(chessboard[i][k].myPiece != null) {
+                            return -7; //blocking piece 
+                        }
+                    }
+                }
             }
             //rank positive, file negative 
             if(rankDist > 0 && fileDist < 0) {
-                
+                for(i = initRank+1; i < destRank; ++i) {
+                    for(k == initFile-1; k > destFile; --k) {
+                        if(chessboard[i][k].myPiece != null) {
+                            return -7; //blocking piece 
+                        }
+                    }
+                }
             }
             //rank negative, file positive
             if(rankDist < 0 && fileDist > 0) {
-                
+                for(i = initRank-1; i > destRank; --i) {
+                    for(k == initFile+1; k < destFile; ++k) {
+                        if(chessboard[i][k].myPiece != null) {
+                            return -7; //blocking piece 
+                        }
+                    }
+                }
             }
             //both negative 
             if(rankDist < 0 && fileDist < 0) {
-                
+                for(i = initRank-1; i < destRank; --i) {
+                    for(k == initFile-1; k < destFile; --k) {
+                        if(chessboard[i][k].myPiece != null) {
+                            return -7; //blocking piece 
+                        }
+                    }
+                }
             }
-            
-
         }
         //rook move rules
         else if(chessboard[initRank][initFile].myPiece.owner == 'Rook') {
