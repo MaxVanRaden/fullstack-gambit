@@ -1,4 +1,11 @@
 //Written by Max Van Raden 
+//Contains classes for handling the logical implentation of chess
+//The structure is as follows: a board is made up of squares, which can contain pieces.
+//The board is initialized with the correct number of squares and pieces for a standard chess starting position
+//The board contains the monstrous check_move function, which takes the initial square and destination square as arguments
+//and ensures that the move is legal. 
+
+//Castling and en passant still require implementation 
 class piece {
     constructor(owner, value, name) {
         hasMoved = false;
@@ -115,7 +122,7 @@ class board {
         //
         // Pin check - separated because big function
         //
-        if(chessboard[initRank][initFile].myPiece.owner != 'King') { //A king cannot be pinned to itself, so skip this if the king move 
+        if(chessboard[initRank][initFile].myPiece.owner != 'King') { //A king cannot be pinned to itself, so skip this if the king moves 
             let kingFile = -1;
             let kingRank = -1;
             let isPinned = -1;
@@ -183,7 +190,7 @@ class board {
 
             }
 
-            else if(kingFile == initFile && isPinned != -1) { //king and piece on the same file
+            else if(kingFile == initFile && isPinned == -1) { //king and piece on the same file
                 if(kingRank > initRank) {
                     for(i = initRank+1; i < kingRank; i++){ //check if there is a piece between the king and the moving piece, if so, not pinned
                         if(chessboard[i][kingFile].myPiece != null) {//if the square is not empty, the moving piece is unpinned
@@ -231,7 +238,7 @@ class board {
         
             }
 
-            else if(isPinned != -1) { //Now that we've checked the ranks and files, check for the king and piece sharing a diagonal 
+            else if(isPinned == -1) { //Now that we've checked the ranks and files, check for the king and piece sharing a diagonals, assuming the isPinned flag hasn't been triggered 
                 let rankDiff = kingRank - initRank;
                 let fileDiff = kingFile - initFile;
                 if(rankDiff == fileDiff || rankDiff == -fileDiff) {//if the pieces are separated by the same number of squares on both rank and file, they're on a diagonal
@@ -924,8 +931,6 @@ class board {
         }
         else {
             return -9; //unrecognized piece type error
-        }
-
-        
+        }      
     }
 }
