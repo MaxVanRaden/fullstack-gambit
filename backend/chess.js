@@ -256,7 +256,7 @@ class board {
                                 break;
                             }
                         }
-                        if(isPinned != -1) {//check the opposite diagonal direction if there's not a piece in between
+                        if(isPinned == -1) {//check the opposite diagonal direction if there's not a piece in between
                             for(i = initRank-1; i >= 0; --i) {
                                 for(k = initFile-1; i >=0; --i) {
                                     if(chessboard[i][k].myPiece != null) { //check that the square is not empty
@@ -276,7 +276,7 @@ class board {
                         }
                     }
                    
-                    else if(rankDiff > 0 && fileDiff < 0) { //positive rank diff, negative file diff
+                    else if(rankDiff > 0 && fileDiff < 0 && isPinned == -1) { //positive rank diff, negative file diff
                         for(i = initRank+1; i < kingRank; ++i) {
                             for(k = initFile-1; k > kingFile; --k) {
                                 if(chessboard[i][k].myPiece != null) { // there is a piece on the diagonal between the king and the piece
@@ -289,7 +289,7 @@ class board {
                                 break;
                             }
                         }
-                        if(isPinned != -1) {//check the opposite diagonal direction if there's not a piece in between
+                        if(isPinned == -1) {//check the opposite diagonal direction if there's not a piece in between
                             for(i = initRank-1; i >= 0; --i) {
                                 for(k = initFile+1; i < 8; ++i) {
                                     if(chessboard[i][k].myPiece != null) { //check that the square is not empty
@@ -309,7 +309,7 @@ class board {
                         }
                     }
                     
-                    else if(rankDiff < 0 && fileDiff > 0) { //negative rank diff, positive file diff
+                    else if(rankDiff < 0 && fileDiff > 0 && isPinned == -1) { //negative rank diff, positive file diff
                         for(i = initRank-1; i > kingRank; --i) {
                             for(k = initFile+1; k < kingFile; ++k) {
                                 if(chessboard[i][k].myPiece != null) { // there is a piece on the diagonal between the king and the piece
@@ -322,7 +322,7 @@ class board {
                                 break;
                             }
                         }
-                        if(isPinned != -1) {//check the opposite diagonal direction if there's not a piece in between
+                        if(isPinned == -1) {//check the opposite diagonal direction if there's not a piece in between
                             for(i = initRank+1; i < 8; ++i) {
                                 for(k = initFile-1; i >= 0; --i) {
                                     if(chessboard[i][k].myPiece != null) { //check that the square is not empty
@@ -342,7 +342,7 @@ class board {
                         }
                     }
                    
-                    else if(rankDiff < 0 && fileDiff < 0) { //negative rank and file diff
+                    else if(rankDiff < 0 && fileDiff < 0 && isPinned == -1) { //negative rank and file diff
                         for(i = initRank-1; i > kingRank; --i) {
                             for(k = initFile-1; k > kingFile; --k) {
                                 if(chessboard[i][k].myPiece != null) { // there is a piece on the diagonal between the king and the piece
@@ -355,7 +355,7 @@ class board {
                                 break;
                             }
                         }
-                        if(isPinned != -1) {//check the opposite diagonal direction if there's not a piece in between
+                        if(isPinned == -1) {//check the opposite diagonal direction if there's not a piece in between
                             for(i = initRank+1; i < 8; ++i) {
                                 for(k = initFile+1; i < 8; ++i) {
                                     if(chessboard[i][k].myPiece != null) { //check that the square is not empty
