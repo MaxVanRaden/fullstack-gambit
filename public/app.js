@@ -1,20 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
   const infoDisplay = document.querySelector("#infoMessage");
   const turnDisplay = document.querySelector("#turnMessage");
-  const multiPlayerButton = document.querySelector("#multiPlayerButton");
-  const startButton = document.querySelector("#startButton");
+  const joinGameButton = document.querySelector("#joinGameButton");
+  const readyButton = document.querySelector("#readyButton");
   let currentPlayer = "user";
-  let gameMode = "";
   let playerNum = 0;
   let ready = false;
   let enemyReady = false;
-  let pieceMoved = false;
   let isGameOver = false;
 
-  multiPlayerButton.addEventListener("click", startMultiPlayer);
+  joinGameButton.addEventListener("click", start);
 
-  function startMultiPlayer() {
-    gameMode = "multiPlayer";
+  function start() {
     const socket = io();
 
     socket.on("player-number", (num) => {
@@ -37,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     socket.on("enemy-ready", (num) => {
       enemyReady = true;
       playerReady(num);
-      if (ready) playGameMulti(socket);
+      if (ready) playGame(socket);
     });
 
     socket.on("check-players", (players) => {
@@ -50,8 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    startButton.addEventListener("click", () => {
-      playGameMulti(socket);
+    readyButton.addEventListener("click", () => {
+      playGame(socket);
     });
 
     function playerConnectedOrDisconnected(num) {
@@ -64,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function playGameMulti(socket) {
+  function playGame(socket) {
     if (isGameOver) return;
     if (!ready) {
       socket.emit("player-ready");
