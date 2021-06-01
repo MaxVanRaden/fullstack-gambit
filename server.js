@@ -9,18 +9,24 @@ const io = socketio(server);
 
 //set static folder
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "backend")));
 
 //start server
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // Handle socket
+
+//Only two connections for 2 players
 const connections = [null, null];
 
+//When a connection is made
 io.on("connection", (socket) => {
-  //console.log("New socket connection");
+  console.log("New socket connection");
 
   //Find player
   let playerIndex = -1;
+
+  //Loop through and see if there is an open connection
   for (const i in connections) {
     if (connections[i] === null) {
       playerIndex = i;
@@ -28,17 +34,21 @@ io.on("connection", (socket) => {
     }
   }
 
+  //send signal to app with player number
   socket.emit("player-number", playerIndex);
 
   console.log(`Player ${playerIndex} has connected`);
 
-  //Ignore player 3
+  //Ignore player 3 or higher, only room for 2
   if (playerIndex === -1) return;
 
+  //Set if they are ready to false
   connections[playerIndex] = false;
 
+  //send signal to all connections that a player has connected
   socket.broadcast.emit("player-connection", playerIndex);
 
+  //WHen the conenction is lost
   socket.on("disconnect", () => {
     console.log(`Player ${playerIndex} disconnected`);
     connections[playerIndex] = null;
@@ -46,11 +56,13 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("player-connection", playerIndex);
   });
 
+  //When the server receives the player ready signal
   socket.on("player-ready", () => {
     socket.broadcast.emit("enemy-ready", playerIndex);
     connections[playerIndex] = true;
   });
 
+  //Checks the status of other connections to update html page
   socket.on("check-players", () => {
     const players = [];
     for (const i in connections) {
@@ -60,4 +72,11 @@ io.on("connection", (socket) => {
     }
     socket.emit("check-players", players);
   });
+
+  //Timeout if connection is longer than 10 minutes
+  setTimeout(() => {
+    connections[playerIndex] = null;
+    socket.emit("timeout");
+    socket.disconnect;
+  }, 600000);
 });

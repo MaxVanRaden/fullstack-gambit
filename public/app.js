@@ -47,6 +47,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
+    socket.on("timeout", () => {
+      infoDisplay.innerHTML = "You have reached the 10 min limit";
+    });
+
     readyButton.addEventListener("click", () => {
       playGame(socket);
     });
