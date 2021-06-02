@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let ready = false;
   let enemyReady = false;
   let isGameOver = false;
+  let clicked = -1;
   const gameboard = new board();
   gameboard.initialize();
 
@@ -62,9 +63,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     squares.forEach(square => {
         square.addEventListener('click', () => {
-            
+            if(currentPlayer === 'user' && ready && enemyReady){
+                clicked = square.dataset.id;
+                socket.emit("move", clicked);
+            }
         })
-    })
+    });
+
+    socket.on("move", (id) => {
+        squares[id].classList.toggle("green");
+        currentPlayer = "user";
+        turnDisplay.innerHTML = "Your Go";
+        socket.emit("move-reply", id);
+        playGame(socket);
+    });
+
+    socket.on("move-reply", (id) => {
+        squares[id].classList.toggle("green");
+        currentPlayer = "enemy";
+        playGame(socket);
+    });
 
     function playerConnectedOrDisconnected(num) {
       let player = `.p${parseInt(num) + 1}`;

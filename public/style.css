@@ -23,6 +23,10 @@ body {
   color: black;
 }
 
+.green {
+  background-color: green;
+}
+
 .grid div {
   width: 100px;
   height: 100px;
