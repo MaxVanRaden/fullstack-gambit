@@ -60,6 +60,12 @@ document.addEventListener("DOMContentLoaded", () => {
       playGame(socket);
     });
 
+    squares.forEach(square => {
+        square.addEventListener('click', () => {
+            
+        })
+    })
+
     function playerConnectedOrDisconnected(num) {
       let player = `.p${parseInt(num) + 1}`;
       document
@@ -75,8 +81,11 @@ document.addEventListener("DOMContentLoaded", () => {
         let pos = i;
         for(let j = 0; j < width; j++){
             const square = document.createElement('div');
-            square.dataset.id = i;
-            square.innerHTML = gameboard.chessboard[i][j].myPiece.name;
+            const piece = gameboard.chessboard[i][j].myPiece
+            square.dataset.id = (i*width) + j;
+            if(piece != null){
+                square.innerHTML = piece.name;
+            }
             if(pos%2!=0){
                 square.classList.toggle("black");
             }else{
@@ -89,6 +98,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
   createBoard(grid, squares);
+
+  function printBoard() {
+      for(let i = 0; i < 8; i++){
+          for(let j = 0; j < 8; j++){
+              console.log(gameboard.chessboard[i][j].myPiece.name);
+          }
+      }
+  }
+  //printBoard();
 
   function playGame(socket) {
     if (isGameOver) return;
@@ -143,14 +161,14 @@ class board {
   constructor() {
       //initialize the 64 squares so that they can be accessed by this.chessboard[0][0] for A1, [0][1] for B1 and so on 
       this.chessboard = [
-          [square, square, square, square, square, square, square, square],
-          [square, square, square, square, square, square, square, square],
-          [square, square, square, square, square, square, square, square],
-          [square, square, square, square, square, square, square, square],
-          [square, square, square, square, square, square, square, square],
-          [square, square, square, square, square, square, square, square],
-          [square, square, square, square, square, square, square, square],
-          [square, square, square, square, square, square, square, square]
+          [new square,  new square,  new square,  new square,  new square,  new square,  new square,  new square],
+          [ new square,  new square,  new square,  new square,  new square,  new square,  new square,  new square],
+          [ new square,  new square,  new square,  new square,  new square,  new square,  new square,  new square],
+          [ new square,  new square,  new square,  new square,  new square,  new square,  new square,  new square],
+          [ new square,  new square,  new square,  new square,  new square,  new square,  new square,  new square],
+          [ new square,  new square,  new square,  new square,  new square,  new square,  new square,  new square],
+          [ new square,  new square,  new square,  new square,  new square,  new square,  new square,  new square],
+          [ new square,  new square,  new square,  new square,  new square,  new square,  new square,  new square]
       ]
   }
   initialize() {//multipurpose function - clears board and resets it to default position
