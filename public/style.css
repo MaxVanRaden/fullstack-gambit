@@ -6,14 +6,23 @@
   width: 800px;
   height: 800px;
   display: flex;
-  flex-wrap: wrap;
-  background-color: black;
-  margin: 20px; 
+  flex-wrap: wrap; 
+  margin: 0 auto;
+}
+
+.black {
+  background-color:black;
+  color: white;
+}
+
+.white {
+  background-color: white;
+  color: black;
 }
 
 .grid div {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
 }
 
 .connected,
