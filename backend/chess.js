@@ -9,23 +9,20 @@
 class piece {
     constructor(owner, value, name) {
         hasMoved = false;
-        const owner = owner; 
-        const value = value; //point value of the piece, int
-        const name = name;
+        const owner = this.owner; 
+        const value = this.value; //point value of the piece, int
+        const name = this.name;
     }
 }
 class square {
     constructor() {
-        myPiece = null;
-    }
-    constructor(piece) {
-        myPiece = piece;
+        this.myPiece = null;
     }
 }
 class board {
     constructor() {
         //initialize the 64 squares so that they can be accessed by chessboard[0][0] for A1, [0][1] for B1 and so on 
-        chessboard = [
+        this.chessboard = [
             [square, square, square, square, square, square, square, square],
             [square, square, square, square, square, square, square, square],
             [square, square, square, square, square, square, square, square],
@@ -37,13 +34,13 @@ class board {
         ]
     }
     initialize() {//multipurpose function - clears board and resets it to default position
-        for(i = 0; i < 8; ++i) {
-            for(k = 0; k < 8; ++i) {
+        for(let i = 0; i < 8; ++i) {
+            for(let k = 0; k < 8; ++k) {
                 chessboard[i][k].myPiece = null;
             }
         }
-        for(i = 0; i < 8; ++i) {
-            for(k = 0; k < 8; ++i) {
+        for(let i = 0; i < 8; ++i) {
+            for(let k = 0; k < 8; ++k) {
                 if(i == 0) { //rank is 1, white backrank 
                     if(k == 0 || k == 7) { // A1 and H1, white rooks
                         chessboard[i][k].myPiece = piece(true, 5, 'Rook');
@@ -128,8 +125,8 @@ class board {
             let kingFile = -1;
             let kingRank = -1;
             let isPinned = -1;
-            for(i = 0; i < 8; i++){ //Step one, locate the same side king by iterating through board
-                for(k = 0; k < 8; k++) {
+            for(let i = 0; i < 8; i++){ //Step one, locate the same side king by iterating through board
+                for(let k = 0; k < 8; k++) {
                     if(chessboard[i][k].myPiece != null){
                         if(chessboard[i][k].myPiece.name == 'King' && chessboard[i][k].myPiece.owner == chessboard[initRank][initFile].myPiece.owner) { //locate same side king 
                             kingRank = i;
@@ -145,7 +142,7 @@ class board {
 
             if(kingRank == initRank) { //king and piece on the same rank
                 if(kingFile > initFile) {
-                    for(i = initFile+1; i < kingFile; i++){ //check if there is a piece between the king and the moving piece, if so, not pinned
+                    for(let i = initFile+1; i < kingFile; i++){ //check if there is a piece between the king and the moving piece, if so, not pinned
                         if(chessboard[kingRank][i].myPiece != null) { //if the square is not empty, the moving piece is unpinned
                             isPinned = 0; //Not pinned
                         }
@@ -154,7 +151,7 @@ class board {
                         }
                     }
                     if(isPinned == -1) { //there is not a piece in between, continue with pin check 
-                        for(i = initFile-1; i >= 0; i--) { //look at the squares on the side of the piece opposite the king for enemy rooks 
+                        for(let i = initFile-1; i >= 0; i--) { //look at the squares on the side of the piece opposite the king for enemy rooks 
                             if(chessboard[kingRank][i].myPiece != null) {
                                 if((chessboard[kingRank][i].myPiece.name == 'Rook' || chessboard[kingRank][i].myPiece.name == 'Queen') && chessboard[kingRank][i].myPiece.owner != color) { //checks for enemy rook or queen
                                     return -5; //piece is pinned, move invalid 
@@ -167,7 +164,7 @@ class board {
                     }
                 }
                 if(kingFile < initFile) {
-                        for(i = initFile-1; i > kingFile; i--){ //check if there is a piece between the king and the moving piece, if so, not pinned
+                        for(let i = initFile-1; i > kingFile; i--){ //check if there is a piece between the king and the moving piece, if so, not pinned
                             if(chessboard[kingRank][i].myPiece != null) {//if the square is not empty, the moving piece is unpinned
                                 isPinned = 0; //Not pinned
                             }
@@ -176,7 +173,7 @@ class board {
                             }
                         }
                         if(isPinned == -1) { //there is not a piece in between, continue with pin check 
-                            for(i = initFile+1; i < 8; i++) {//look at the squares on the side of the piece opposite the king for enemy rooks 
+                            for(let i = initFile+1; i < 8; i++) {//look at the squares on the side of the piece opposite the king for enemy rooks 
                                 if(chessboard[kingRank][i].myPiece != null) {
                                     if((chessboard[kingRank][i].myPiece.name == 'Rook' || chessboard[kingRank][i].myPiece.name == 'Queen') && chessboard[kingRank][i].myPiece.owner != color) { //checks for enemy rook or queen
                                         return -5; //piece is pinned, move invalid 
@@ -194,7 +191,7 @@ class board {
 
             else if(kingFile == initFile && isPinned == -1) { //king and piece on the same file
                 if(kingRank > initRank) {
-                    for(i = initRank+1; i < kingRank; i++){ //check if there is a piece between the king and the moving piece, if so, not pinned
+                    for(let i = initRank+1; i < kingRank; i++){ //check if there is a piece between the king and the moving piece, if so, not pinned
                         if(chessboard[i][kingFile].myPiece != null) {//if the square is not empty, the moving piece is unpinned
                             isPinned = 0; //Not pinned
                         }
@@ -203,7 +200,7 @@ class board {
                         }
                     }
                     if(isPinned == -1) { //there is not a piece in between, continue with pin check 
-                        for(i = initRank-1; i >= 0; i--) {//look at the squares on the side of the piece opposite the king for enemy rooks 
+                        for(let i = initRank-1; i >= 0; i--) {//look at the squares on the side of the piece opposite the king for enemy rooks 
                             if(chessboard[i][kingFile].myPiece != null) {
                                 if((chessboard[i][kingFile].myPiece.name == 'Rook' || chessboard[i][kingFile].myPiece.name == 'Queen') && chessboard[i][kingFile].myPiece.owner != color) { //checks for enemy rook or queen
                                     return -5; //piece is pinned, move invalid 
@@ -216,7 +213,7 @@ class board {
                     }
                 }
                 if(kingRank < initRank) {
-                        for(i = kingRank-1; i > kingRank; i--){ //check if there is a piece between the king and the moving piece, if so, not pinned
+                        for(let i = kingRank-1; i > kingRank; i--){ //check if there is a piece between the king and the moving piece, if so, not pinned
                             if(chessboard[i][kingFile].myPiece != null) {//if the square is not empty, the moving piece is unpinned
                                 isPinned = 0; //Not pinned
                             }
@@ -225,7 +222,7 @@ class board {
                             }
                         }
                         if(isPinned == -1) { //there is not a piece in between, continue with pin check 
-                            for(i = initRank+1; i <= 7; i++) {//look at the squares on the side of the piece opposite the king for enemy rooks 
+                            for(let i = initRank+1; i <= 7; i++) {//look at the squares on the side of the piece opposite the king for enemy rooks 
                                 if(chessboard[i][kingFile].myPiece != null) {
                                     if((chessboard[i][kingFile].myPiece.name == 'Rook' || chessboard[i][kingFile].myPiece.name == 'Queen') && chessboard[i][kingFile].myPiece.owner != color) { //checks for enemy rook or queen
                                         return -5; //piece is pinned, move invalid 
@@ -246,8 +243,8 @@ class board {
                 if(rankDiff == fileDiff || rankDiff == -fileDiff) {//if the pieces are separated by the same number of squares on both rank and file, they're on a diagonal
                    
                     if(rankDiff > 0 && fileDiff > 0) { //positive rank and file diff
-                        for(i = initRank+1; i < kingRank; ++i) {
-                            for(k = initFile+1; k < kingFile; ++k) {
+                        for(let i = initRank+1; i < kingRank; ++i) {
+                            for(let k = initFile+1; k < kingFile; ++k) {
                                 if(chessboard[i][k].myPiece != null) { // there is a piece on the diagonal between the king and the piece
                                     isPinned = 0;
                                     break;
@@ -259,8 +256,8 @@ class board {
                             }
                         }
                         if(isPinned == -1) {//check the opposite diagonal direction if there's not a piece in between
-                            for(i = initRank-1; i >= 0; --i) {
-                                for(k = initFile-1; i >=0; --i) {
+                            for(let i = initRank-1; i >= 0; --i) {
+                                for(let k = initFile-1; i >=0; --i) {
                                     if(chessboard[i][k].myPiece != null) { //check that the square is not empty
                                         if((chessboard[i][k].myPiece.name == 'Bishop' || chessboard[i][k].myPiece.name == 'Queen') && chessboard[i][k].myPiece.owner != color) {
                                             return -5; //piece is pinned 
@@ -279,8 +276,8 @@ class board {
                     }
                    
                     else if(rankDiff > 0 && fileDiff < 0 && isPinned == -1) { //positive rank diff, negative file diff
-                        for(i = initRank+1; i < kingRank; ++i) {
-                            for(k = initFile-1; k > kingFile; --k) {
+                        for(let i = initRank+1; i < kingRank; ++i) {
+                            for(let k = initFile-1; k > kingFile; --k) {
                                 if(chessboard[i][k].myPiece != null) { // there is a piece on the diagonal between the king and the piece
                                     isPinned = 0;
                                     break;
@@ -292,8 +289,8 @@ class board {
                             }
                         }
                         if(isPinned == -1) {//check the opposite diagonal direction if there's not a piece in between
-                            for(i = initRank-1; i >= 0; --i) {
-                                for(k = initFile+1; i < 8; ++i) {
+                            for(let i = initRank-1; i >= 0; --i) {
+                                for(let k = initFile+1; i < 8; ++i) {
                                     if(chessboard[i][k].myPiece != null) { //check that the square is not empty
                                         if((chessboard[i][k].myPiece.name == 'Bishop' || chessboard[i][k].myPiece.name == 'Queen') && chessboard[i][k].myPiece.owner != color) {
                                             return -5; //piece is pinned 
@@ -312,8 +309,8 @@ class board {
                     }
                     
                     else if(rankDiff < 0 && fileDiff > 0 && isPinned == -1) { //negative rank diff, positive file diff
-                        for(i = initRank-1; i > kingRank; --i) {
-                            for(k = initFile+1; k < kingFile; ++k) {
+                        for(let i = initRank-1; i > kingRank; --i) {
+                            for(let k = initFile+1; k < kingFile; ++k) {
                                 if(chessboard[i][k].myPiece != null) { // there is a piece on the diagonal between the king and the piece
                                     isPinned = 0;
                                     break;
@@ -325,8 +322,8 @@ class board {
                             }
                         }
                         if(isPinned == -1) {//check the opposite diagonal direction if there's not a piece in between
-                            for(i = initRank+1; i < 8; ++i) {
-                                for(k = initFile-1; i >= 0; --i) {
+                            for(let i = initRank+1; i < 8; ++i) {
+                                for(let k = initFile-1; i >= 0; --i) {
                                     if(chessboard[i][k].myPiece != null) { //check that the square is not empty
                                         if((chessboard[i][k].myPiece.name == 'Bishop' || chessboard[i][k].myPiece.name == 'Queen') && chessboard[i][k].myPiece.owner != color) {
                                             return -5; //piece is pinned 
@@ -345,8 +342,8 @@ class board {
                     }
                    
                     else if(rankDiff < 0 && fileDiff < 0 && isPinned == -1) { //negative rank and file diff
-                        for(i = initRank-1; i > kingRank; --i) {
-                            for(k = initFile-1; k > kingFile; --k) {
+                        for(let i = initRank-1; i > kingRank; --i) {
+                            for(let k = initFile-1; k > kingFile; --k) {
                                 if(chessboard[i][k].myPiece != null) { // there is a piece on the diagonal between the king and the piece
                                     isPinned = 0;
                                     break;
@@ -358,8 +355,8 @@ class board {
                             }
                         }
                         if(isPinned == -1) {//check the opposite diagonal direction if there's not a piece in between
-                            for(i = initRank+1; i < 8; ++i) {
-                                for(k = initFile+1; i < 8; ++i) {
+                            for(let i = initRank+1; i < 8; ++i) {
+                                for(let k = initFile+1; i < 8; ++i) {
                                     if(chessboard[i][k].myPiece != null) { //check that the square is not empty
                                         if((chessboard[i][k].myPiece.name == 'Bishop' || chessboard[i][k].myPiece.name == 'Queen') && chessboard[i][k].myPiece.owner != color) {
                                             return -5; //piece is pinned 
@@ -390,8 +387,8 @@ class board {
         if(chessboard[initRank][initFile].myPiece.owner != 'King') {//if the piece being moved isn't a king, check that the king isn't currently in check
             let kingRank = -1;
             let kingFile = -1;
-            for(i = 0; i < 8; i++) { //Step one, locate the same side king by iterating through board
-                for(k = 0; k < 8; k++) {
+            for(let i = 0; i < 8; i++) { //Step one, locate the same side king by iterating through board
+                for(let k = 0; k < 8; k++) {
                     if(chessboard[i][k].myPiece != null){
                         if(chessboard[i][k].myPiece.name == 'King' && chessboard[i][k].myPiece.owner == color) { //locate same side king 
                             kingRank = i;
@@ -432,7 +429,7 @@ class board {
             }
             
             //check the rank and file directions (horizontal and vertical lines for check threats)
-            for(i = kingRank+1; i < 8; ++i) {
+            for(let i = kingRank+1; i < 8; ++i) {
                 if(chessboard[i][kingFile].myPiece != null) {
                     if((chessboard[i][kingFile].myPiece.name == 'Rook' || chessboard[i][kingFile].myPiece.name == 'Queen') && chessboard[i][kingFile].myPiece.owner != color) {
                         return -6; //king is in check 
@@ -442,7 +439,7 @@ class board {
                     }
                 }
             }
-            for(i = kingRank-1; i >= 0; --i) {
+            for(let i = kingRank-1; i >= 0; --i) {
                 if(chessboard[i][kingFile].myPiece != null) {
                     if((chessboard[i][kingFile].myPiece.name == 'Rook' || chessboard[i][kingFile].myPiece.name == 'Queen') && chessboard[i][kingFile].myPiece.owner != color) {
                         return -6; //king is in check 
@@ -452,7 +449,7 @@ class board {
                     }
                 }
             }
-            for(i = kingFile+1; i < 8; ++i) {
+            for(let i = kingFile+1; i < 8; ++i) {
                 if(chessboard[kingRank][i].myPiece != null) {
                     if((chessboard[kingRank][i].myPiece.name == 'Rook' || chessboard[kingRank][i].myPiece.name == 'Queen') && chessboard[kingRank][i].myPiece.owner != color) {
                         return -6; //king is in check 
@@ -462,7 +459,7 @@ class board {
                     }
                 }
             }
-            for(i = kingFile-1; i >= 0; --i) {
+            for(let i = kingFile-1; i >= 0; --i) {
                 if(chessboard[kingRank][i].myPiece != null) {
                     if((chessboard[kingRank][i].myPiece.name == 'Rook' || chessboard[kingRank][i].myPiece.name == 'Queen') && chessboard[kingRank][i].myPiece.owner != color) {
                         return -6; //king is in check 
@@ -474,8 +471,8 @@ class board {
             }
 
             //Check the diagonals 
-            for(i = kingRank+1; i < 8; ++i){
-                for(k = kingFile+1; k < 8; ++k) {
+            for(let i = kingRank+1; i < 8; ++i){
+                for(let k = kingFile+1; k < 8; ++k) {
                     if(chessboard[i][k].myPiece != null) {
                         if((chessboard[i][k].myPiece.name == 'Bishop' || chessboard[i][k].myPiece.name == 'Queen') && chessboard[i][k].myPiece.owner != color) {
                             return -6; //king is in check 
@@ -494,8 +491,8 @@ class board {
                     }
                 }
             }
-            for(i = kingRank-1; i >= 0; --i){
-                for(k = kingFile+1; k < 8; ++k) {
+            for(let i = kingRank-1; i >= 0; --i){
+                for(let k = kingFile+1; k < 8; ++k) {
                     if(chessboard[i][k].myPiece != null) {
                         if((chessboard[i][k].myPiece.name == 'Bishop' || chessboard[i][k].myPiece.name == 'Queen') && chessboard[i][k].myPiece.owner != color) {
                             return -6; //king is in check 
@@ -514,8 +511,8 @@ class board {
                     }
                 }
             }
-            for(i = kingRank+1; i < 8; ++i){
-                for(k = kingFile-1; k >= 0; --k) {
+            for(let i = kingRank+1; i < 8; ++i){
+                for(let k = kingFile-1; k >= 0; --k) {
                     if(chessboard[i][k].myPiece != null) {
                         if((chessboard[i][k].myPiece.name == 'Bishop' || chessboard[i][k].myPiece.name == 'Queen') && chessboard[i][k].myPiece.owner != color) {
                             return -6; //king is in check 
@@ -534,8 +531,8 @@ class board {
                     }
                 }
             }
-            for(i = kingRank-1; i >= 0; --i){
-                for(k = kingFile-1; k >= 0; --k) {
+            for(let i = kingRank-1; i >= 0; --i){
+                for(let k = kingFile-1; k >= 0; --k) {
                     if(chessboard[i][k].myPiece != null) {
                         if((chessboard[i][k].myPiece.name == 'Bishop' || chessboard[i][k].myPiece.name == 'Queen') && chessboard[i][k].myPiece.owner != color) {
                             return -6; //king is in check 
@@ -587,7 +584,7 @@ class board {
             }
 
             //check the rank and file directions (horizontal and vertical lines for check threats)
-            for(i = kingRank+1; i < 8; ++i) {
+            for(let i = kingRank+1; i < 8; ++i) {
                 if(chessboard[i][kingFile].myPiece != null) {
                     if((chessboard[i][kingFile].myPiece.name == 'Rook' || chessboard[i][kingFile].myPiece.name == 'Queen') && chessboard[i][kingFile].myPiece.owner != color) {
                         return -6; //king is in check 
@@ -597,7 +594,7 @@ class board {
                     }
                 }
             }
-            for(i = kingRank-1; i >= 0; --i) {
+            for(let i = kingRank-1; i >= 0; --i) {
                 if(chessboard[i][kingFile].myPiece != null) {
                     if((chessboard[i][kingFile].myPiece.name == 'Rook' || chessboard[i][kingFile].myPiece.name == 'Queen') && chessboard[i][kingFile].myPiece.owner != color) {
                         return -6; //king is in check 
@@ -607,7 +604,7 @@ class board {
                     }
                 }
             }
-            for(i = kingFile+1; i < 8; ++i) {
+            for(let i = kingFile+1; i < 8; ++i) {
                 if(chessboard[kingRank][i].myPiece != null) {
                     if((chessboard[kingRank][i].myPiece.name == 'Rook' || chessboard[kingRank][i].myPiece.name == 'Queen') && chessboard[kingRank][i].myPiece.owner != color) {
                         return -6; //king is in check 
@@ -617,7 +614,7 @@ class board {
                     }
                 }
             }
-            for(i = kingFile-1; i >= 0; --i) {
+            for(let i = kingFile-1; i >= 0; --i) {
                 if(chessboard[kingRank][i].myPiece != null) {
                     if((chessboard[kingRank][i].myPiece.name == 'Rook' || chessboard[kingRank][i].myPiece.name == 'Queen') && chessboard[kingRank][i].myPiece.owner != color) {
                         return -6; //king is in check 
@@ -629,8 +626,8 @@ class board {
             }
 
             //Check the diagonals 
-            for(i = kingRank+1; i < 8; ++i){
-                for(k = kingFile+1; k < 8; ++k) {
+            for(let i = kingRank+1; i < 8; ++i){
+                for(let k = kingFile+1; k < 8; ++k) {
                     if(chessboard[i][k].myPiece != null) {
                         if((chessboard[i][k].myPiece.name == 'Bishop' || chessboard[i][k].myPiece.name == 'Queen') && chessboard[i][k].myPiece.owner != color) {
                             return -6; //king is in check 
@@ -649,8 +646,8 @@ class board {
                     }
                 }
             }
-            for(i = kingRank-1; i >= 0; --i){
-                for(k = kingFile+1; k < 8; ++k) {
+            for(let i = kingRank-1; i >= 0; --i){
+                for(let k = kingFile+1; k < 8; ++k) {
                     if(chessboard[i][k].myPiece != null) {
                         if((chessboard[i][k].myPiece.name == 'Bishop' || chessboard[i][k].myPiece.name == 'Queen') && chessboard[i][k].myPiece.owner != color) {
                             return -6; //king is in check 
@@ -669,8 +666,8 @@ class board {
                     }
                 }
             }
-            for(i = kingRank+1; i < 8; ++i){
-                for(k = kingFile-1; k >= 0; --k) {
+            for(let i = kingRank+1; i < 8; ++i){
+                for(let k = kingFile-1; k >= 0; --k) {
                     if(chessboard[i][k].myPiece != null) {
                         if((chessboard[i][k].myPiece.name == 'Bishop' || chessboard[i][k].myPiece.name == 'Queen') && chessboard[i][k].myPiece.owner != color) {
                             return -6; //king is in check 
@@ -689,8 +686,8 @@ class board {
                     }
                 }
             }
-            for(i = kingRank-1; i >= 0; --i){
-                for(k = kingFile-1; k >= 0; --k) {
+            for(let i = kingRank-1; i >= 0; --i){
+                for(let k = kingFile-1; k >= 0; --k) {
                     if(chessboard[i][k].myPiece != null) {
                         if((chessboard[i][k].myPiece.name == 'Bishop' || chessboard[i][k].myPiece.name == 'Queen') && chessboard[i][k].myPiece.owner != color) {
                             return -6; //king is in check 
@@ -765,8 +762,8 @@ class board {
             //check for clear path
             //both positive
             if(rankDist > 0 && fileDist > 0) {
-                for(i = initRank+1; i < destRank; ++i){
-                    for(k == initFile+1; k < destFile; ++k) {
+                for(let i = initRank+1; i < destRank; ++i){
+                    for(let k = initFile+1; k < destFile; ++k) {
                         if(chessboard[i][k].myPiece != null) {
                             return -7; //blocking piece 
                         }
@@ -775,8 +772,8 @@ class board {
             }
             //rank positive, file negative 
             if(rankDist > 0 && fileDist < 0) {
-                for(i = initRank+1; i < destRank; ++i) {
-                    for(k == initFile-1; k > destFile; --k) {
+                for(let i = initRank+1; i < destRank; ++i) {
+                    for(let k = initFile-1; k > destFile; --k) {
                         if(chessboard[i][k].myPiece != null) {
                             return -7; //blocking piece 
                         }
@@ -785,8 +782,8 @@ class board {
             }
             //rank negative, file positive
             if(rankDist < 0 && fileDist > 0) {
-                for(i = initRank-1; i > destRank; --i) {
-                    for(k == initFile+1; k < destFile; ++k) {
+                for(let i = initRank-1; i > destRank; --i) {
+                    for(let k = initFile+1; k < destFile; ++k) {
                         if(chessboard[i][k].myPiece != null) {
                             return -7; //blocking piece 
                         }
@@ -795,8 +792,8 @@ class board {
             }
             //both negative 
             if(rankDist < 0 && fileDist < 0) {
-                for(i = initRank-1; i < destRank; --i) {
-                    for(k == initFile-1; k < destFile; --k) {
+                for(let i = initRank-1; i < destRank; --i) {
+                    for(let k = initFile-1; k < destFile; --k) {
                         if(chessboard[i][k].myPiece != null) {
                             return -7; //blocking piece 
                         }
@@ -810,14 +807,14 @@ class board {
             //travelling on rank
             if(destFile == initFile && destRank != initRank) {
                 if(destRank - initRank > 0) {
-                    for(i = initRank+1; i < destRank; i++) {
+                    for(let i = initRank+1; i < destRank; i++) {
                         if(chessboard[i][initFile].myPiece != null) {
                             return -7; //blocking piece 
                         }
                     }
                 }
                 else {
-                    for(i = initRank-1; i > destRank; i--) {
+                    for(let i = initRank-1; i > destRank; i--) {
                         if(chessboard[i][initFile].myPiece != null) {
                             return -7; //blocking piece 
                         }
@@ -827,14 +824,14 @@ class board {
             //travelling on file 
             else if(destFile != initFile && destRank == initRank) {
                 if(destFile - initFile > 0) {
-                    for(i = initFile+1; i < destFile; i++) {
+                    for(let i = initFile+1; i < destFile; i++) {
                         if(chessboard[initRank][i].myPiece != null) {
                             return -7; //blocking piece 
                         }
                     }
                 }
                 else {
-                    for(i = initFile-1; i > destFile; i--) {
+                    for(let i = initFile-1; i > destFile; i--) {
                         if(chessboard[initRank][i].myPiece != null) {
                             return -7; //blocking piece 
                         }
@@ -853,8 +850,8 @@ class board {
             //bishop type movement
             if(rankDist == fileDist || rankDist == -fileDist) {   
                 if(rankDist > 0 && fileDist > 0) {
-                    for(i = initRank+1; i < destRank; ++i){
-                        for(k == initFile+1; k < destFile; ++k) {
+                    for(let i = initRank+1; i < destRank; ++i){
+                        for(let k = initFile+1; k < destFile; ++k) {
                             if(chessboard[i][k].myPiece != null) {
                                 return -7; //blocking piece 
                             }
@@ -863,8 +860,8 @@ class board {
                 }
                 //rank positive, file negative 
                 if(rankDist > 0 && fileDist < 0) {
-                    for(i = initRank+1; i < destRank; ++i) {
-                        for(k == initFile-1; k > destFile; --k) {
+                    for(let i = initRank+1; i < destRank; ++i) {
+                        for(let k = initFile-1; k > destFile; --k) {
                             if(chessboard[i][k].myPiece != null) {
                                 return -7; //blocking piece 
                             }
@@ -873,8 +870,8 @@ class board {
                 }
                 //rank negative, file positive
                 if(rankDist < 0 && fileDist > 0) {
-                    for(i = initRank-1; i > destRank; --i) {
-                        for(k == initFile+1; k < destFile; ++k) {
+                    for(let i = initRank-1; i > destRank; --i) {
+                        for(let k = initFile+1; k < destFile; ++k) {
                             if(chessboard[i][k].myPiece != null) {
                                 return -7; //blocking piece 
                             }
@@ -883,8 +880,8 @@ class board {
                 }
                 //both negative 
                 if(rankDist < 0 && fileDist < 0) {
-                    for(i = initRank-1; i < destRank; --i) {
-                        for(k == initFile-1; k < destFile; --k) {
+                    for(let i = initRank-1; i < destRank; --i) {
+                        for(let k = initFile-1; k < destFile; --k) {
                             if(chessboard[i][k].myPiece != null) {
                                 return -7; //blocking piece 
                             }
@@ -895,14 +892,14 @@ class board {
             //rook type movement on Rank
             else if(destFile == initFile && destRank != initRank) { 
                 if(destRank - initRank > 0) {
-                    for(i = initRank+1; i < destRank; i++) {
+                    for(let i = initRank+1; i < destRank; i++) {
                         if(chessboard[i][initFile].myPiece != null) {
                             return -7; //blocking piece 
                         }
                     }
                 }
                 else {
-                    for(i = initRank-1; i > destRank; i--) {
+                    for(let i = initRank-1; i > destRank; i--) {
                         if(chessboard[i][initFile].myPiece != null) {
                             return -7; //blocking piece 
                         }
@@ -912,14 +909,14 @@ class board {
             //rook type movement on File 
             else if(destFile != initFile && destRank == initRank) { 
                 if(destFile - initFile > 0) {
-                    for(i = initFile+1; i < destFile; i++) {
+                    for(let i = initFile+1; i < destFile; i++) {
                         if(chessboard[initRank][i].myPiece != null) {
                             return -7; //blocking piece 
                         }
                     }
                 }
                 else {
-                    for(i = initFile-1; i > destFile; i--) {
+                    for(let i = initFile-1; i > destFile; i--) {
                         if(chessboard[initRank][i].myPiece != null) {
                             return -7; //blocking piece 
                         }
@@ -946,7 +943,7 @@ class board {
     }
 
     move(initRank, initFile, destRank, destFile, color) {
-        result = 0;
+        let result = 0;
         result = this.check_move(initRank, initFile, destRank, destFile, color, 0, 0); // en passant not yet implemented
         if(result == 1) {
             chessboard[destRank][destFile].myPiece = null;
