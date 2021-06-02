@@ -946,6 +946,19 @@ class board {
     }
 
     move(initRank, initFile, destRank, destFile, color) {
-        if(true) {}
+        result = 0;
+        result = this.check_move(initRank, initFile, destRank, destFile, color, 0, 0); // en passant not yet implemented
+        if(result == 1) {
+            chessboard[destRank][destFile].myPiece = null;
+            chessboard[destRank][destFile].myPiece = chessboard[initRank][initFile].myPiece;
+            chessboard[initRank][initFile].myPiece = null;
+            return 1; // move valid and executed 
+        }
+        else if(result == 1) {
+            return 0; // error with check move function
+        }
+        else {
+            return result; // move invalid, error code returned
+        }
     }
 }
