@@ -107,17 +107,19 @@ class board {
     // RETURN ERROR CODES
     // -1 no piece, -2 out of bounds, -3 not moving, -4 self capture, -5 pinned, -6 in check, -7 blocking piece, -8 piece-specific move rule, -9 unrecognized piece type 
     check_move(initRank, initFile, destRank, destFile, color, enPassantRank, enPassantFile) {
+        if(destRank > 7 || destRank < 0 || destFile > 7 || destFile < 0 || initRank > 7 || initRank < 0 || initFile > 7 || initFile < 0) {
+            return -2; //out of board bounds error
+        }
         if(!chessboard[initRank][initFile].myPiece){ //make sure that there is a piece at the initial square
             return -1; //no piece error
-        }
-        if(destRank > 7 || destRank < 0 || destFile > 7 || destFile < 0) {
-            return -2; //out of board bounds error
         }
         if(destRank == initRank && destFile == initFile) {
             return -3; //the move isn't a move error
         }
-        if(chessboard[destRank][destFile].myPiece.owner == chessboard[initRank][initFile].myPiece.owner) {
-            return -4; //self-capture error - cannot capture own pieces 
+        if(chessboard[destRank][destFile].myPiece) {
+            if(chessboard[destRank][destFile].myPiece.owner == chessboard[initRank][initFile].myPiece.owner) {
+                return -4; //self-capture error - cannot capture own pieces 
+            }
         }
         //
         // Pin check - separated because big function
@@ -711,9 +713,10 @@ class board {
         //
         // Piece specific move rules
         //
-        
+        var validPiece = 0; //flag for checking that a valid piece has been encountered
         //Pawn move rules 
         if(chessboard[initRank][initFile].myPiece.owner == 'Pawn') {
+            validPiece = 1;
             //white pawn
             if(chessboard[initRank][initFile].myPiece.owner == true) {
                 if(destRank == initRank+2 && chessboard[initRank][initFile].myPiece.hasMoved == false) {
@@ -746,12 +749,14 @@ class board {
         }
         //knight move rules 
         else if(chessboard[initRank][initFile].myPiece.owner == 'Knight') {
+            validPiece = 1;
             if(((destRank != initRank+2 || destRank != initRank-2) && (deskFile != initFile+1 || destFile != initFile-1)) ||  ((destRank != initRank+1 || destRank != initRank-1) && (deskFile != initFile+2 || destFile != initFile-2))) {
                 return -8; //piece-specific move error 
             }
         }
         //bishop move rules
         else if(chessboard[initRank][initFile].myPiece.owner == 'Bishop') {
+            validPiece = 1;
             rankDist == initRank - destRank;
             fileDist == initFile - destFile;
             if(rankDist != fileDist || rankDist != -fileDist) {
@@ -801,6 +806,7 @@ class board {
         }
         //rook move rules
         else if(chessboard[initRank][initFile].myPiece.owner == 'Rook') {
+            validPiece = 1;
             //travelling on rank
             if(destFile == initFile && destRank != initRank) {
                 if(destRank - initRank > 0) {
@@ -841,6 +847,7 @@ class board {
         }
         //queen move rules
         else if(chessboard[initRank][initFile].myPiece.owner == 'Queen') {
+            validPiece = 1;
             rankDist == initRank - destRank;
             fileDist == initFile - destFile;
             //bishop type movement
@@ -925,12 +932,20 @@ class board {
         }
         //king move rules 
         else if(chessboard[initRank][initFile].myPiece.owner == 'King') {
+            validPiece = 1;
             if(destRank > initRank+1 || destRank < initRank-1 || destFile > initFile+1 || destFile < initFile-1) {
                 return -8; //piece-specific move error 
             }
         }
-        else {
+        else if (validPiece == 0){
             return -9; //unrecognized piece type error
+        }
+        else {
+            return 1; //valid move 
         }      
+    }
+
+    move(initRank, initFile, destRank, destFile, color) {
+        if(true) {}
     }
 }
