@@ -76,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
         for(let j = 0; j < width; j++){
             const square = document.createElement('div');
             square.dataset.id = i;
+            square.innerHTML = gameboard.chessboard[i][j].myPiece.name;
             if(pos%2!=0){
                 square.classList.toggle("black");
             }else{
