@@ -73,13 +73,13 @@ io.on("connection", (socket) => {
   });
 
   socket.on("move", (id) => {
-    console.log("here");
+    console.log(`Space clicked from ${playerIndex}`, id);
     socket.broadcast.emit("move", id);
   });
 
   socket.on("move-reply", (id) => {
     console.log(id);
-    socket.broadcast.emit("move-reply", sqaure);
+    socket.broadcast.emit("move-reply", id);
   });
 
   //Timeout if connection is longer than 10 minutes
