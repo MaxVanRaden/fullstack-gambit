@@ -1,3 +1,21 @@
+.container {
+  display: flex;
+}
+
+.grid {
+  width: 800px;
+  height: 800px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: black;
+  margin: 20px; 
+}
+
+.grid div {
+  width: 80px;
+  height: 80px;
+}
+
 .connected,
 .ready {
   font-weight: normal;

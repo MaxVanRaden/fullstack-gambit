@@ -9,7 +9,6 @@ const io = socketio(server);
 
 //set static folder
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.static(path.join(__dirname, "backend")));
 
 //start server
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
