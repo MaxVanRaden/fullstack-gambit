@@ -95,9 +95,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function createBoard(grid, squares){
-    for(let let i = 0; i < width; i++){
+    for(let i = 0; i < width; i++){
         let pos = i;
-        for(let let j = 0; j < width; j++){
+        for(let j = 0; j < width; j++){
             const square = document.createElement('div');
             const piece = gameboard.chessboard[i][j].myPiece
             square.dataset.id = (i*width) + j;
@@ -118,8 +118,8 @@ document.addEventListener("DOMContentLoaded", () => {
   createBoard(grid, squares);
 
   function printBoard() {
-      for(let let i = 0; i < 8; i++){
-          for(let let j = 0; j < 8; j++){
+      for(let i = 0; i < 8; i++){
+          for(let j = 0; j < 8; j++){
               console.log(gameboard.chessboard[i][j].myPiece.name);
           }
       }
@@ -195,8 +195,8 @@ class board {
     //           this.chessboard[i][k].myPiece = null;
     //       }
     //   }
-      for(let let i = 0; i < 8; i++) {
-          for(let let k = 0; k < 8; k++) {
+      for(let i = 0; i < 8; i++) {
+          for(let k = 0; k < 8; k++) {
               if(i == 0) { //rank is 1, white backrank 
                   if(k == 0 || k == 7) { // A1 and H1, white rooks
                       this.chessboard[i][k].myPiece = new piece(true, 5, 'Rook');
