@@ -1,13 +1,19 @@
+import {board} from '../backend/chess.js';
 document.addEventListener("DOMContentLoaded", () => {
+  const grid = document.querySelector(".grid");
   const infoDisplay = document.querySelector("#infoMessage");
   const turnDisplay = document.querySelector("#turnMessage");
   const joinGameButton = document.querySelector("#joinGameButton");
   const readyButton = document.querySelector("#readyButton");
+  const squares = [];
+  const width = 8;
   let currentPlayer = "user";
   let playerNum = 0;
   let ready = false;
   let enemyReady = false;
   let isGameOver = false;
+  const gameboard = board();
+  gameboard.initialize();
 
   joinGameButton.addEventListener("click", start);
 
@@ -64,6 +70,16 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector(player).style.fontWeight = "bold";
     }
   }
+
+  function createBoard(grid, squares){
+    for(let i = 0; i < width*width; i++){
+      const square = document.createElement('div');
+      square.dataset.id = i;
+      grid.appendChild(square);
+      squares.push(square);
+    }
+  }
+  createBoard(grid, squares);
 
   function playGame(socket) {
     if (isGameOver) return;
