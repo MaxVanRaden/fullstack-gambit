@@ -72,14 +72,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function createBoard(grid, squares){
     for(let i = 0; i < width; i++){
+        let pos = i;
         for(let j = 0; j < width; j++){
             const square = document.createElement('div');
             square.dataset.id = i;
-            if(){
+            if(pos%2==0){
                 square.classList.toggle("black");
             }else{
                 square.classList.toggle("white");
             }
+            pos++;
             grid.appendChild(square);
             squares.push(square);
         }
