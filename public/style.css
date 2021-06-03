@@ -15,16 +15,22 @@ body {
 
 .black {
   background-color:black;
-  color: white;
 }
 
 .white {
   background-color: white;
-  color: black;
 }
 
 .green {
   background-color: green;
+}
+
+.player1 {
+  color: green;
+}
+
+.player2 { 
+  color: red;
 }
 
 .grid div {

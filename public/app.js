@@ -7,19 +7,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const squares = [];
   const width = 8;
   let currentPlayer = "user";
-  let playerNum = 0;
+  let playerNum = -1;
   let ready = false;
   let enemyReady = false;
   let isGameOver = false;
   let clicked = -1;
+  let firstClick = -1;
+  let secondClick = -1;
   const gameboard = new board();
   gameboard.initialize();
 
   joinGameButton.addEventListener("click", start);
 
   function start() {
+    //If the player is already playing and has connected, do not start another connection
+    if(playerNum != -1) return;
+    
+    //Start the socket connection
     const socket = io();
 
+    //Sockets for player connection
     socket.on("player-number", (num) => {
       if (num === -1) {
         infoDisplay.innerHtml = "Sorry, the server is full";
@@ -57,10 +64,12 @@ document.addEventListener("DOMContentLoaded", () => {
       infoDisplay.innerHTML = "You have reached the 10 min limit";
     });
 
+    //When the player clicks ready start the game.
     readyButton.addEventListener("click", () => {
-      playGame(socket);
+        playGame(socket);
     });
 
+    //Add event listeners to each square to know what move the user wants.
     squares.forEach(square => {
         square.addEventListener('click', () => {
             if(currentPlayer === 'user' && ready && enemyReady){
@@ -94,6 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  //Create the chess board
   function createBoard(grid, squares){
     for(let i = 0; i < width; i++){
         let pos = i;
@@ -117,15 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   createBoard(grid, squares);
 
-  function printBoard() {
-      for(let i = 0; i < 8; i++){
-          for(let j = 0; j < 8; j++){
-              console.log(gameboard.chessboard[i][j].myPiece.name);
-          }
-      }
-  }
-  //printBoard();
-
+  //Main function to play game
   function playGame(socket) {
     if (isGameOver) return;
     if (!ready) {
@@ -1107,7 +1109,7 @@ class board {
         chessboard[initRank][initFile].myPiece = null;
         return 1; // move valid and executed 
     }
-    else if(result == 1) {
+    else if(result == 0) {
         return 0; // error with check move function
     }
     else {
