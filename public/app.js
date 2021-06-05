@@ -191,6 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
             pos++;
             grid.appendChild(square);
             squares.push(square);
+            squares.sort(function(a, b){return a.dataset.id - b.dataset.id});
         }
     }
   }
