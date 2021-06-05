@@ -877,16 +877,18 @@ class board {
       //knight move rules 
       else if(this.chessboard[initRank][initFile].myPiece.name == 'Knight') {
           validPiece = 1;
-          if(((destRank != initRank+2 || destRank != initRank-2) && (destFile != initFile+1 || destFile != initFile-1)) ||  ((destRank != initRank+1 || destRank != initRank-1) && (destFile != initFile+2 || destFile != initFile-2))) {
-              return -8; //piece-specific move error 
+          if(((destRank == initRank+2 || destRank == initRank-2) && (destFile == initFile+1 || destFile == initFile-1)) || ((destRank == initRank+1 || destRank == initRank-1) && (destFile == initFile+2 || destFile == initFile-2))) { 
+          }
+          else {
+              return -8;//piece-specific move error
           }
       }
       //bishop move rules
       else if(this.chessboard[initRank][initFile].myPiece.name == 'Bishop') {
           validPiece = 1;
-          rankDist == initRank - destRank;
-          fileDist == initFile - destFile;
-          if(rankDist != fileDist || rankDist != -fileDist) {
+          var rankDist = initRank - destRank;
+          var fileDist = initFile - destFile;
+          if(rankDist != fileDist && rankDist != -fileDist) {
               return -8; //piece-specific move error 
           }
           //check for clear path
@@ -901,7 +903,7 @@ class board {
               }
           }
           //rank positive, file negative 
-          if(rankDist > 0 && fileDist < 0) {
+          else if(rankDist > 0 && fileDist < 0) {
               for(let i = initRank+1; i < destRank; ++i) {
                   for(let k = initFile-1; k > destFile; --k) {
                       if(this.chessboard[i][k].myPiece != null) {
@@ -911,7 +913,7 @@ class board {
               }
           }
           //rank negative, file positive
-          if(rankDist < 0 && fileDist > 0) {
+          else if(rankDist < 0 && fileDist > 0) {
               for(let i = initRank-1; i > destRank; --i) {
                   for(let k = initFile+1; k < destFile; ++k) {
                       if(this.chessboard[i][k].myPiece != null) {
@@ -921,7 +923,7 @@ class board {
               }
           }
           //both negative 
-          if(rankDist < 0 && fileDist < 0) {
+          else if(rankDist < 0 && fileDist < 0) {
               for(let i = initRank-1; i < destRank; --i) {
                   for(let k = initFile-1; k < destFile; --k) {
                       if(this.chessboard[i][k].myPiece != null) {
@@ -975,8 +977,8 @@ class board {
       //queen move rules
       else if(this.chessboard[initRank][initFile].myPiece.name == 'Queen') {
           validPiece = 1;
-          rankDist == initRank - destRank;
-          fileDist == initFile - destFile;
+          var rankDist = initRank - destRank;
+          var fileDist = initFile - destFile;
           //bishop type movement
           if(rankDist == fileDist || rankDist == -fileDist) {   
               if(rankDist > 0 && fileDist > 0) {
