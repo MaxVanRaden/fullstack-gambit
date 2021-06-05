@@ -262,14 +262,15 @@ class board {
   // RETURN ERROR CODES
   // -1 no piece, -2 out of bounds, -3 not moving, -4 self capture, -5 pinned, -6 in check, -7 blocking piece, -8 piece-specific move rule, -9 unrecognized piece type, -10 other player's piece 
   check_move(initRank, initFile, destRank, destFile, color, enPassantRank, enPassantFile) {
-      if(color != this.chessboard[destRank][destFile].myPiece.owner) {
-          return -10; // Other players piece error
-      }
+      
       if(destRank > 7 || destRank < 0 || destFile > 7 || destFile < 0 || initRank > 7 || initRank < 0 || initFile > 7 || initFile < 0) {
           return -2; //out of board bounds error
       }
       if(!this.chessboard[initRank][initFile].myPiece){ //make sure that there is a piece at the initial square
           return -1; //no piece error
+      }
+      if(color != this.chessboard[initRank][initFile].myPiece.owner) {
+          return -10; // Other players piece error
       }
       if(destRank == initRank && destFile == initFile) {
           return -3; //the move isn't a move error
