@@ -13,6 +13,14 @@ body {
   margin: 0 auto;
 }
 
+
+
+.grid div {
+  width: 100px;
+  height: 100px;
+  text-align: center;
+}
+
 .black {
   background-color:black;
 }
@@ -31,13 +39,6 @@ body {
 
 .player2 { 
   color: red;
-}
-
-.grid div {
-  width: 100px;
-  height: 100px;
-  text-align: center;
-  color: gray;
 }
 
 .connected,
