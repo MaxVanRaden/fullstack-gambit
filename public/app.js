@@ -84,16 +84,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 secondClick = square.dataset.id;
 
-                let initRank = squares[firstClick].dataset.rank;
-                let initFile = squares[firstClick].dataset.file;
-                let destRank = squares[secondClick].dataset.rank;
-                let destFile = squares[secondClick].dataset.file;
+                let initRank = parseInt(squares[firstClick].dataset.rank);
+                let initFile = parseInt(squares[firstClick].dataset.file);
+                let destRank = parseInt(squares[secondClick].dataset.rank);
+                let destFile = parseInt(squares[secondClick].dataset.file);
                 let color = (playerNum === 0 ? true : false);
 
                 let result = gameboard.move(initRank, initFile, destRank, destFile, color);
 
                 if(result === 1){
-                    socket.emit("move", {init: firstClick, dest: secondClick});
+                    //socket.emit("move", {init: firstClick, dest: secondClick});
                     window.alert("Made a valid move");
                 }else{
                     switch(result){
@@ -838,12 +838,13 @@ class board {
                   }
               }
               //TODO: Separate out into blocking piece and piece-movement rule errors for clarity
-              else if(destRank != initRank+1 || this.chessboard[destRank][destFile].myPiece != null) {
-                  console.log("here 2", initRank, initFile)
+              else if(destRank != (initRank+1) || this.chessboard[destRank][destFile].myPiece != null) {
+                console.log("here 2", initRank, initFile, destRank, destFile);
                   return -8; //piece-specific movement rule error 
               }
               else if(destRank != initRank+1 || (destFile != initFile+1 || destFile != initFile-1) || this.chessboard[destRank][destFile].myPiece == null) {//enemy piece is on a diagonal square, valid pawn capture
-                  return -8; //piece-specific move error 
+                console.log("here 3", initRank, initFile, destRank, destFile);  
+                return -8; //piece-specific move error 
               }
           }
           //black pawn
@@ -854,10 +855,12 @@ class board {
                   }
               }
               else if(destRank != initRank+1) {
-                  return -8; //piece-specific movement rule error 
+                console.log("here 4", initRank, initFile, destRank, destFile);  
+                return -8; //piece-specific movement rule error 
               }
               else if(destRank != initRank-1 || (destFile != initFile+1 || destFile != initFile-1) || this.chessboard[destRank][destFile].myPiece == null) {//enemy piece is on a diagonal square, valid pawn capture
-                  return -8; //piece-specific move error 
+                console.log("here 5", initRank, initFile, destRank, destFile);  
+                return -8; //piece-specific move error 
               }
           }
       }
