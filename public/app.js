@@ -1104,6 +1104,7 @@ class board {
     let result = 0;
     result = this.check_move(initRank, initFile, destRank, destFile, color, 0, 0); // en passant not yet implemented
     if(result == 1) {
+        chessboard[initRank][initFile].myPiece.hasMoved = true;
         chessboard[destRank][destFile].myPiece = null;
         chessboard[destRank][destFile].myPiece = chessboard[initRank][initFile].myPiece;
         chessboard[initRank][initFile].myPiece = null;
