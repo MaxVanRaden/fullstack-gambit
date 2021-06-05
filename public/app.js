@@ -635,29 +635,45 @@ class board {
           }
 
           //check for knights, includes checks for out of bounds and existing pieces to prevent null dereferences
-          if(kingRank+2 <= 7 && kingFile+1 <= 7 && this.chessboard[kingRank+2][kingFile+1].myPiece && this.chessboard[kingRank+2][kingFile+1].myPiece.name == 'Knight' && this.chessboard[kingRank+2][kingFile+1].myPiece.owner != color) {
-              return -6; //king is in check
+          if(kingRank+2 <= 7 && kingFile+1 <= 7 ) {
+            if(this.chessboard[kingRank+2][kingFile+1] && this.chessboard[kingRank+2][kingFile+1].myPiece != null && this.chessboard[kingRank+2][kingFile+1].myPiece.name == 'Knight' && this.chessboard[kingRank+2][kingFile+1].myPiece.owner != color) {
+                return -6; //king is in check
+            }
+          }   
+          if(kingRank+2 <= 7 && kingFile-1 >= 0 ) {
+             if(this.chessboard[kingRank+2][kingFile-1].myPiece != null && this.chessboard[kingRank+2][kingFile-1].myPiece.name == 'Knight' && this.chessboard[kingRank+2][kingFile-1].myPiece.owner != color) {
+                return -6; //king is in check
+             }
           }
-          if(kingRank+2 <= 7 && kingFile-1 >= 0 && this.chessboard[kingRank+2][kingFile-1].myPiece && this.chessboard[kingRank+2][kingFile-1].myPiece.name == 'Knight' && this.chessboard[kingRank+2][kingFile-1].myPiece.owner != color) {
-              return -6; //king is in check
+          if(kingRank-2 >= 0 || kingFile+1 <= 7) { 
+             if(this.chessboard[kingRank-2][kingFile+1].myPiece != null && this.chessboard[kingRank-2][kingFile+1].myPiece.name == 'Knight' && this.chessboard[kingRank-2][kingFile+1].myPiece.owner != color) {
+                return -6; //king is in check
+             }
           }
-          if(kingRank-2 >=0 && kingFile+1 <= 7 && this.chessboard[kingRank-2][kingFile+1].myPiece && this.chessboard[kingRank-2][kingFile+1].myPiece.name == 'Knight' && this.chessboard[kingRank-2][kingFile+1].myPiece.owner != color) {
-              return -6; //king is in check
+          if(kingRank-2 >= 0 && kingFile-1 >= 0 ) {
+            if(this.chessboard[kingRank-2][kingFile-1].myPiece != null && this.chessboard[kingRank-2][kingFile-1].myPiece.name == 'Knight' && this.chessboard[kingRank-2][kingFile-1].myPiece.owner != color) {
+                 return -6; //king is in check
+            }
           }
-          if(this.chessboard[kingRank-2][kingFile-1] && this.chessboard[kingRank-2][kingFile-1].myPiece && this.chessboard[kingRank-2][kingFile-1].myPiece.name == 'Knight' && this.chessboard[kingRank-2][kingFile-1].myPiece.owner != color) {
-              return -6; //king is in check
+          if(kingRank+1 <= 7 && kingFile+2 <= 7) {
+            if(this.chessboard[kingRank+1][kingFile+2].myPiece != null && this.chessboard[kingRank+1][kingFile+2].myPiece.name == 'Knight' && this.chessboard[kingRank+1][kingFile+2].myPiece.owner != color) {
+                return -6; //king is in check
+            }
           }
-          if(this.chessboard[kingRank+1][kingFile+2] && this.chessboard[kingRank+1][kingFile+2].myPiece && this.chessboard[kingRank+1][kingFile+2].myPiece.name == 'Knight' && this.chessboard[kingRank+1][kingFile+2].myPiece.owner != color) {
-              return -6; //king is in check
+          if(kingRank+1 <= 7 && kingFile-2 >= 0 ) {
+            if(this.chessboard[kingRank+1][kingFile-2].myPiece != null && this.chessboard[kingRank+1][kingFile-2].myPiece.name == 'Knight' && this.chessboard[kingRank+1][kingFile-2].myPiece.owner != color) {
+                return -6; //king is in check
+            }
           }
-          if(this.chessboard[kingRank+1][kingFile-2] && this.chessboard[kingRank+1][kingFile-2].myPiece && this.chessboard[kingRank+1][kingFile-2].myPiece.name == 'Knight' && this.chessboard[kingRank+1][kingFile-2].myPiece.owner != color) {
-              return -6; //king is in check
-          }
-          if(this.chessboard[kingRank-1][kingFile+2] && this.chessboard[kingRank-1][kingFile+2].myPiece && this.chessboard[kingRank-1][kingFile+2].myPiece.name == 'Knight' && this.chessboard[kingRank-1][kingFile+2].myPiece.owner != color) {
-              return -6; //king is in check
-          }
-          if(this.chessboard[kingRank-1][kingFile-2] && this.chessboard[kingRank-1][kingFile-2].myPiece && this.chessboard[kingRank-1][kingFile-2].myPiece.name == 'Knight' && this.chessboard[kingRank-1][kingFile-2].myPiece.owner != color) {
-              return -6; //king is in check
+          if(kingRank-1 >= 0 && kingFile+2 <= 7 ) {
+            if(this.chessboard[kingRank-1][kingFile+2].myPiece != null && this.chessboard[kingRank-1][kingFile+2].myPiece.name == 'Knight' && this.chessboard[kingRank-1][kingFile+2].myPiece.owner != color) {
+                  return -6; //king is in check
+            }
+          } 
+          if(kingRank-1 >= 0 && kingFile-2 >= 0 ) {
+            if(this.chessboard[kingRank-1][kingFile-2].myPiece != null && this.chessboard[kingRank-1][kingFile-2].myPiece.name == 'Knight' && this.chessboard[kingRank-1][kingFile-2].myPiece.owner != color) {
+                return -6; //king is in check
+            }
           }
           
           //check the rank and file directions (horizontal and vertical lines for check threats)
@@ -789,30 +805,46 @@ class board {
           let kingRank = destRank;
           let kingFile = destFile;
           
-          //check for knights 
-          if(this.chessboard[kingRank+2][kingFile+1].myPiece.name == 'Knight' && this.chessboard[kingRank+2][kingFile+1].myPiece.owner != color) {
-              return -6; //king is in check
+          //check for knights, includes checks for out of bounds and existing pieces to prevent null dereferences
+          if(kingRank+2 <= 7 && kingFile+1 <= 7 ) {
+            if(this.chessboard[kingRank+2][kingFile+1] && this.chessboard[kingRank+2][kingFile+1].myPiece != null && this.chessboard[kingRank+2][kingFile+1].myPiece.name == 'Knight' && this.chessboard[kingRank+2][kingFile+1].myPiece.owner != color) {
+                return -6; //king is in check
+            }
+          }   
+          if(kingRank+2 <= 7 && kingFile-1 >= 0 ) {
+             if(this.chessboard[kingRank+2][kingFile-1].myPiece != null && this.chessboard[kingRank+2][kingFile-1].myPiece.name == 'Knight' && this.chessboard[kingRank+2][kingFile-1].myPiece.owner != color) {
+                return -6; //king is in check
+             }
           }
-          if(this.chessboard[kingRank+2][kingFile-1].myPiece.name == 'Knight' && this.chessboard[kingRank+2][kingFile-1].myPiece.owner != color) {
-              return -6; //king is in check
+          if(kingRank-2 >= 0 || kingFile+1 <= 7) { 
+             if(this.chessboard[kingRank-2][kingFile+1].myPiece != null && this.chessboard[kingRank-2][kingFile+1].myPiece.name == 'Knight' && this.chessboard[kingRank-2][kingFile+1].myPiece.owner != color) {
+                return -6; //king is in check
+             }
           }
-          if(this.chessboard[kingRank-2][kingFile+1].myPiece.name == 'Knight' && this.chessboard[kingRank-2][kingFile+1].myPiece.owner != color) {
-              return -6; //king is in check
+          if(kingRank-2 >= 0 && kingFile-1 >= 0 ) {
+            if(this.chessboard[kingRank-2][kingFile-1].myPiece != null && this.chessboard[kingRank-2][kingFile-1].myPiece.name == 'Knight' && this.chessboard[kingRank-2][kingFile-1].myPiece.owner != color) {
+                 return -6; //king is in check
+            }
           }
-          if(this.chessboard[kingRank-2][kingFile-1].myPiece.name == 'Knight' && this.chessboard[kingRank-2][kingFile-1].myPiece.owner != color) {
-              return -6; //king is in check
+          if(kingRank+1 <= 7 && kingFile+2 <= 7) {
+            if(this.chessboard[kingRank+1][kingFile+2].myPiece != null && this.chessboard[kingRank+1][kingFile+2].myPiece.name == 'Knight' && this.chessboard[kingRank+1][kingFile+2].myPiece.owner != color) {
+                return -6; //king is in check
+            }
           }
-          if(this.chessboard[kingRank+1][kingFile+2].myPiece.name == 'Knight' && this.chessboard[kingRank+1][kingFile+2].myPiece.owner != color) {
-              return -6; //king is in check
+          if(kingRank+1 <= 7 && kingFile-2 >= 0 ) {
+            if(this.chessboard[kingRank+1][kingFile-2].myPiece != null && this.chessboard[kingRank+1][kingFile-2].myPiece.name == 'Knight' && this.chessboard[kingRank+1][kingFile-2].myPiece.owner != color) {
+                return -6; //king is in check
+            }
           }
-          if(this.chessboard[kingRank+1][kingFile-2].myPiece.name == 'Knight' && this.chessboard[kingRank+1][kingFile-2].myPiece.owner != color) {
-              return -6; //king is in check
-          }
-          if(this.chessboard[kingRank-1][kingFile+2].myPiece.name == 'Knight' && this.chessboard[kingRank-1][kingFile+2].myPiece.owner != color) {
-              return -6; //king is in check
-          }
-          if(this.chessboard[kingRank-1][kingFile-2].myPiece.name == 'Knight' && this.chessboard[kingRank-1][kingFile-2].myPiece.owner != color) {
-              return -6; //king is in check
+          if(kingRank-1 >= 0 && kingFile+2 <= 7 ) {
+            if(this.chessboard[kingRank-1][kingFile+2].myPiece != null && this.chessboard[kingRank-1][kingFile+2].myPiece.name == 'Knight' && this.chessboard[kingRank-1][kingFile+2].myPiece.owner != color) {
+                  return -6; //king is in check
+            }
+          } 
+          if(kingRank-1 >= 0 && kingFile-2 >= 0 ) {
+            if(this.chessboard[kingRank-1][kingFile-2].myPiece != null && this.chessboard[kingRank-1][kingFile-2].myPiece.name == 'Knight' && this.chessboard[kingRank-1][kingFile-2].myPiece.owner != color) {
+                return -6; //king is in check
+            }
           }
 
           //check the rank and file directions (horizontal and vertical lines for check threats)
