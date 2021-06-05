@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //Create the chess board
   function createBoard(grid, squares){
-    for(let i = 0; i < width; i++){
+    for(let i = width-1; i >= 0; i--){
         let pos = i;
         for(let j = 0; j < width; j++){
             const square = document.createElement('div');
@@ -174,13 +174,20 @@ document.addEventListener("DOMContentLoaded", () => {
             square.dataset.rank = i;
             square.dataset.file = j;
             if(piece != null){
-                square.innerHTML = piece.name;
+                square.innerHTML = `${piece.name}${((i*width)+j)}`;
             }
             if(pos%2!=0){
-                square.classList.toggle("black");
-            }else{
                 square.classList.toggle("white");
+            }else{
+                square.classList.toggle("black");
             }
+            if(piece != null){
+                if(piece.owner){
+                    square.classList.toggle("player1");
+                }else{
+                    square.classList.toggle("player2");
+                }
+            }   
             pos++;
             grid.appendChild(square);
             squares.push(square);
