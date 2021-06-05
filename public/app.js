@@ -92,12 +92,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 let result = gameboard.move(initRank, initFile, destRank, destFile, color);
 
-                result = 1;
-
                 if(result === 1){
                     socket.emit("move", {init: firstClick, dest: secondClick});
                     window.alert("Made a valid move");
-                    updateBoard();
                 }else{
                     switch(result){
                         case -1:
