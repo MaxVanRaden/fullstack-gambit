@@ -78,8 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
                 if(square.dataset.id === firstClick){
-                    firstClick = -1;
                     squares[firstClick].classList.toggle("green");
+                    firstClick = -1;
                     return;
                 }
                 secondClick = square.dataset.id;
@@ -207,8 +207,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 if(piece == null){
                     squares[pos].innerHTML = "";
                 }else{
-                    squares[pos].innerHTML = gameboard.chessboard[i][j].myPiece.name;
+                    squares[pos].innerHTML = `${piece.name}${((i*width)+j)}`;
                 }
+                if(piece != null){
+                    if(piece.owner){
+                        squares[pos].classList.add("player1");
+                        squares[pos].classList.remove("player2");
+                    }else{
+                        squares[pos].classList.add("player2");
+                        squares[pos].classList.remove("player1");
+                    }
+                }   
           }
       }
   }
