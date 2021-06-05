@@ -818,9 +818,11 @@ class board {
       //
       var validPiece = 0; //flag for checking that a valid piece has been encountered
       //Pawn move rules 
-      if(this.chessboard[initRank][initFile].myPiece.owner == 'Pawn') {
+      if(this.chessboard[initRank][initFile].myPiece.name == 'Pawn') {
           validPiece = 1;
           //white pawn
+          console.log("here")
+          
           if(this.chessboard[initRank][initFile].myPiece.owner == true) {
               if(destRank == initRank+2 && this.chessboard[initRank][initFile].myPiece.hasMoved == false) {
                   if(this.chessboard[initRank+1][initFile].myPiece != null) {
@@ -829,6 +831,7 @@ class board {
               }
               //TODO: Separate out into blocking piece and piece-movement rule errors for clarity
               else if(destRank != initRank+1 || this.chessboard[destRank][destFile].myPiece != null) {
+                  console.log("here 2", initRank, initFile)
                   return -8; //piece-specific movement rule error 
               }
               else if(destRank != initRank+1 || (destFile != initFile+1 || destFile != initFile-1) || this.chessboard[destRank][destFile].myPiece == null) {//enemy piece is on a diagonal square, valid pawn capture
@@ -851,14 +854,14 @@ class board {
           }
       }
       //knight move rules 
-      else if(this.chessboard[initRank][initFile].myPiece.owner == 'Knight') {
+      else if(this.chessboard[initRank][initFile].myPiece.name == 'Knight') {
           validPiece = 1;
-          if(((destRank != initRank+2 || destRank != initRank-2) && (deskFile != initFile+1 || destFile != initFile-1)) ||  ((destRank != initRank+1 || destRank != initRank-1) && (deskFile != initFile+2 || destFile != initFile-2))) {
+          if(((destRank != initRank+2 || destRank != initRank-2) && (destFile != initFile+1 || destFile != initFile-1)) ||  ((destRank != initRank+1 || destRank != initRank-1) && (destFile != initFile+2 || destFile != initFile-2))) {
               return -8; //piece-specific move error 
           }
       }
       //bishop move rules
-      else if(this.chessboard[initRank][initFile].myPiece.owner == 'Bishop') {
+      else if(this.chessboard[initRank][initFile].myPiece.name == 'Bishop') {
           validPiece = 1;
           rankDist == initRank - destRank;
           fileDist == initFile - destFile;
@@ -908,7 +911,7 @@ class board {
           }
       }
       //rook move rules
-      else if(this.chessboard[initRank][initFile].myPiece.owner == 'Rook') {
+      else if(this.chessboard[initRank][initFile].myPiece.name == 'Rook') {
           validPiece = 1;
           //travelling on rank
           if(destFile == initFile && destRank != initRank) {
@@ -949,7 +952,7 @@ class board {
           }
       }
       //queen move rules
-      else if(this.chessboard[initRank][initFile].myPiece.owner == 'Queen') {
+      else if(this.chessboard[initRank][initFile].myPiece.name == 'Queen') {
           validPiece = 1;
           rankDist == initRank - destRank;
           fileDist == initFile - destFile;
@@ -1034,7 +1037,7 @@ class board {
           }
       }
       //king move rules 
-      else if(this.chessboard[initRank][initFile].myPiece.owner == 'King') {
+      else if(this.chessboard[initRank][initFile].myPiece.name == 'King') {
           validPiece = 1;
           if(destRank > initRank+1 || destRank < initRank-1 || destFile > initFile+1 || destFile < initFile-1) {
               return -8; //piece-specific move error 
