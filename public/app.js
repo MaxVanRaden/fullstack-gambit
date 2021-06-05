@@ -94,6 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if(result === 1){
                     //socket.emit("move", {init: firstClick, dest: secondClick});
+                    updateBoard();
                     window.alert("Made a valid move");
                 }else{
                     switch(result){
@@ -128,6 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             window.alert("Other plyers piece");
                             break;
                         default:
+                            console.log(result);
                             window.alert("Unknown Error");
                             break;
                     }
@@ -201,7 +203,12 @@ document.addEventListener("DOMContentLoaded", () => {
       for(let i = 0; i < width; i++){
           for(let j = 0; j < width; j++){
                 let pos = (i*width) + j;
-                squares[pos].innerHTML = gameboard.chessboard[i][j].myPiece.name;
+                let piece = gameboard.chessboard[i][j].myPiece
+                if(piece == null){
+                    squares[pos].innerHTML = "";
+                }else{
+                    squares[pos].innerHTML = gameboard.chessboard[i][j].myPiece.name;
+                }
           }
       }
   }
@@ -829,7 +836,6 @@ class board {
       if(this.chessboard[initRank][initFile].myPiece.name == 'Pawn') {
           validPiece = 1;
           //white pawn
-          console.log("here")
           
           if(this.chessboard[initRank][initFile].myPiece.owner == true) {
               if(destRank == initRank+2 && this.chessboard[initRank][initFile].myPiece.hasMoved == false) {
@@ -837,15 +843,23 @@ class board {
                       return -7; //blocking piece 
                   }
               }
-              //TODO: Separate out into blocking piece and piece-movement rule errors for clarity
-              else if(destRank != (initRank+1) || this.chessboard[destRank][destFile].myPiece != null) {
-                console.log("here 2", initRank, initFile, destRank, destFile);
-                  return -8; //piece-specific movement rule error 
-              }
-              else if(destRank != initRank+1 || (destFile != initFile+1 || destFile != initFile-1) || this.chessboard[destRank][destFile].myPiece == null) {//enemy piece is on a diagonal square, valid pawn capture
-                console.log("here 3", initRank, initFile, destRank, destFile);  
-                return -8; //piece-specific move error 
-              }
+
+              if(!(destRank === initRank+1 && destFile === initFile && this.chessboard[destRank][destFile].myPiece === null)
+               && !(destRank === initRank+1 && Math.abs(destFile - initFile) === 1 && this.chessboard[destRank][destFile.myPiece != null])){
+                   return -8;
+               }
+
+
+
+            //   //TODO: Separate out into blocking piece and piece-movement rule errors for clarity
+            //   else if(destRank != (initRank+1) || this.chessboard[destRank][destFile].myPiece != null) {
+            //     console.log("here 2", initRank, initFile, destRank, destFile);
+            //       return -8; //piece-specific movement rule error 
+            //   }
+            //   else if((destRank != initRank+1 && (destFile != initFile+1 || destFile != initFile-1)) || this.chessboard[destRank][destFile].myPiece == null) {//enemy piece is on a diagonal square, valid pawn capture
+            //     console.log("here 3", initRank, initFile, destRank, destFile);  
+            //     return -8; //piece-specific move error 
+            //   }
           }
           //black pawn
           else if(this.chessboard[initRank][initFile].myPiece.owner == false) {
@@ -1054,22 +1068,22 @@ class board {
               return -8; //piece-specific move error 
           }
       }
-      else if (validPiece == 0){
+      else {
           return -9; //unrecognized piece type error
       }
-      else {
-          return 1; //valid move 
-      }      
+        
+      return 1; //valid move 
   }
 
   move(initRank, initFile, destRank, destFile, color) {
     let result = 0;
     result = this.check_move(initRank, initFile, destRank, destFile, color, 0, 0); // en passant not yet implemented
+    console.log(result);
     if(result == 1) {
-        chessboard[initRank][initFile].myPiece.hasMoved = true;
-        chessboard[destRank][destFile].myPiece = null;
-        chessboard[destRank][destFile].myPiece = chessboard[initRank][initFile].myPiece;
-        chessboard[initRank][initFile].myPiece = null;
+        this.chessboard[initRank][initFile].myPiece.hasMoved = true;
+        this.chessboard[destRank][destFile].myPiece = null;
+        this.chessboard[destRank][destFile].myPiece = this.chessboard[initRank][initFile].myPiece;
+        this.chessboard[initRank][initFile].myPiece = null;
         return 1; // move valid and executed 
     }
     else if(result == 0) {
