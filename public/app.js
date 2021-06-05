@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const squares = [];
   const width = 8;
   let currentPlayer = "user";
-  let playerNum = -1;
+  let playerNum = -1; // 0 (white/true) - 1 (black/false)
   let ready = false;
   let enemyReady = false;
   let isGameOver = false;
@@ -73,8 +73,76 @@ document.addEventListener("DOMContentLoaded", () => {
     squares.forEach(square => {
         square.addEventListener('click', () => {
             if(currentPlayer === 'user' && ready && enemyReady){
-                clicked = square.dataset.id;
-                socket.emit("move", clicked);
+                if(firstClick === -1){
+                    firstClick = square.dataset.id;
+                    return;
+                }
+                if(square.dataset.id === firstClick){
+                    firstClick = -1;
+                    return;
+                }
+                secondClick = square.dataset.id;
+
+                //move(initRank, initFile, destRank, destFile, color)
+                let initRank = squares[firstClick].dataset.rank;
+                let initFile = squares[firstClick].dataset.file;
+                let destRank = squares[secondClick].dataset.rank;
+                let destFile = squares[secondClick].dataset.file;
+                let color = (playerNum === 0 ? true : false);
+
+                let result = move(initRank, initFile, destRank, destFile, color);
+
+                if(result === 1){
+                    //socket.emit
+                }else{
+                    // -1 no piece, -2 out of bounds, -3 not moving, -4 self capture, -5 pinned, -6 in check, -7 blocking piece, -8 piece-specific move rule, -9 unrecognized piece type 
+                    switch(result){
+                        case -1:
+                            window.alert("No Piece");
+                            break;
+                        case -2:
+                            window.alert("Out of bounds");
+                            break;
+                        case -3:
+                            window.alert("Not moving");
+                            break;
+                        case -4:
+                            window.alert("Self Capture");
+                            break;
+                        case -5:
+                            window.alert("Pinned");
+                            break;
+                        case -6:
+                            window.alert("In check");
+                            break;
+                        case -7:
+                            window.alert("Blocking Piece");
+                            break;
+                        case -8:
+                            window.alert("Piece-Specific move rule");
+                            break;
+                        case -9:
+                            window.alert("Unrecognized piece type");
+                            break;
+                        case -10:
+                            window.alert("");
+                            break;
+                        default:
+                            window.alert("");
+                            break;
+                        
+                    }
+                }
+
+
+                
+                
+                
+                
+                
+                
+                //clicked = square.dataset.id;
+                //socket.emit("move", clicked);
             }
         })
     });
@@ -111,6 +179,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const square = document.createElement('div');
             const piece = gameboard.chessboard[i][j].myPiece
             square.dataset.id = (i*width) + j;
+            square.dataset.rank = i;
+            square.dataset.file = j;
             if(piece != null){
                 square.innerHTML = piece.name;
             }
@@ -126,6 +196,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
   createBoard(grid, squares);
+
+  function updateBoard(){
+      for(let i = 0; i < width; i++){
+          for(let j = 0; j < width; j++){
+                let pos = (i*width) + j;
+                squares[pos].innerHTML = gameboard.chessboard[i][j].myPiece.name;
+          }
+      }
+  }
 
   //Main function to play game
   function playGame(socket) {
