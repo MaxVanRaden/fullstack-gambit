@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let ready = false;
   let enemyReady = false;
   let isGameOver = false;
-  let clicked = -1;
   let firstClick = -1;
   let secondClick = -1;
   const gameboard = new board();
@@ -75,27 +74,28 @@ document.addEventListener("DOMContentLoaded", () => {
             if(currentPlayer === 'user' && ready && enemyReady){
                 if(firstClick === -1){
                     firstClick = square.dataset.id;
+                    squares[firstClick].classList.toggle("green");
                     return;
                 }
                 if(square.dataset.id === firstClick){
                     firstClick = -1;
+                    squares[firstClick].classList.toggle("green");
                     return;
                 }
                 secondClick = square.dataset.id;
 
-                //move(initRank, initFile, destRank, destFile, color)
                 let initRank = squares[firstClick].dataset.rank;
                 let initFile = squares[firstClick].dataset.file;
                 let destRank = squares[secondClick].dataset.rank;
                 let destFile = squares[secondClick].dataset.file;
                 let color = (playerNum === 0 ? true : false);
 
-                let result = move(initRank, initFile, destRank, destFile, color);
+                let result = gameboard.move(initRank, initFile, destRank, destFile, color);
 
                 if(result === 1){
-                    //socket.emit
+                    //socket.emit("move", clicked);
+                    window.alert("Made a valid move");
                 }else{
-                    // -1 no piece, -2 out of bounds, -3 not moving, -4 self capture, -5 pinned, -6 in check, -7 blocking piece, -8 piece-specific move rule, -9 unrecognized piece type 
                     switch(result){
                         case -1:
                             window.alert("No Piece");
@@ -125,24 +125,16 @@ document.addEventListener("DOMContentLoaded", () => {
                             window.alert("Unrecognized piece type");
                             break;
                         case -10:
-                            window.alert("");
+                            window.alert("Other plyers piece");
                             break;
                         default:
-                            window.alert("");
+                            window.alert("Unknown Error");
                             break;
-                        
                     }
                 }
-
-
-                
-                
-                
-                
-                
-                
-                //clicked = square.dataset.id;
-                //socket.emit("move", clicked);
+                squares[firstClick].classList.toggle("green");
+                firstClick = -1;
+                secondClick = -1;
             }
         })
     });
