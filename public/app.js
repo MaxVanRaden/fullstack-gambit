@@ -868,14 +868,10 @@ class board {
                       return -7; //blocking piece 
                   }
               }
-              else if(destRank != initRank+1) {
-                console.log("here 4", initRank, initFile, destRank, destFile);  
-                return -8; //piece-specific movement rule error 
-              }
-              else if(destRank != initRank-1 || (destFile != initFile+1 || destFile != initFile-1) || this.chessboard[destRank][destFile].myPiece == null) {//enemy piece is on a diagonal square, valid pawn capture
-                console.log("here 5", initRank, initFile, destRank, destFile);  
-                return -8; //piece-specific move error 
-              }
+              if(!(destRank === initRank-1 && destFile === initFile && this.chessboard[destRank][destFile].myPiece === null)
+               && !(destRank === initRank-1 && Math.abs(destFile - initFile) === 1 && this.chessboard[destRank][destFile.myPiece != null])){
+                   return -8;
+               }
           }
       }
       //knight move rules 
