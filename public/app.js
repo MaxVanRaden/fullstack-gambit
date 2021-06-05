@@ -92,9 +92,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 let result = gameboard.move(initRank, initFile, destRank, destFile, color);
 
+                result = 1;
+
                 if(result === 1){
-                    //socket.emit("move", clicked);
+                    socket.emit("move", {init: firstClick, dest: secondClick});
                     window.alert("Made a valid move");
+                    updateBoard();
                 }else{
                     switch(result){
                         case -1:
@@ -635,13 +638,13 @@ class board {
           }
 
           //check for knights, includes checks for out of bounds and existing pieces to prevent null dereferences
-          if(this.chessboard[kingRank+2][kingFile+1] && this.chessboard[kingRank+2][kingFile+1].myPiece && this.chessboard[kingRank+2][kingFile+1].myPiece.name == 'Knight' && this.chessboard[kingRank+2][kingFile+1].myPiece.owner != color) {
+          if(kingRank+2 <= 7 && kingFile+1 <= 7 && this.chessboard[kingRank+2][kingFile+1].myPiece && this.chessboard[kingRank+2][kingFile+1].myPiece.name == 'Knight' && this.chessboard[kingRank+2][kingFile+1].myPiece.owner != color) {
               return -6; //king is in check
           }
-          if(this.chessboard[kingRank+2][kingFile-1] && this.chessboard[kingRank+2][kingFile-1].myPiece && this.chessboard[kingRank+2][kingFile-1].myPiece.name == 'Knight' && this.chessboard[kingRank+2][kingFile-1].myPiece.owner != color) {
+          if(kingRank+2 <= 7 && kingFile-1 >= 0 && this.chessboard[kingRank+2][kingFile-1].myPiece && this.chessboard[kingRank+2][kingFile-1].myPiece.name == 'Knight' && this.chessboard[kingRank+2][kingFile-1].myPiece.owner != color) {
               return -6; //king is in check
           }
-          if(this.chessboard[kingRank-2][kingFile+1] && this.chessboard[kingRank-2][kingFile+1].myPiece && this.chessboard[kingRank-2][kingFile+1].myPiece.name == 'Knight' && this.chessboard[kingRank-2][kingFile+1].myPiece.owner != color) {
+          if(kingRank-2 >=0 && kingFile+1 <= 7 && this.chessboard[kingRank-2][kingFile+1].myPiece && this.chessboard[kingRank-2][kingFile+1].myPiece.name == 'Knight' && this.chessboard[kingRank-2][kingFile+1].myPiece.owner != color) {
               return -6; //king is in check
           }
           if(this.chessboard[kingRank-2][kingFile-1] && this.chessboard[kingRank-2][kingFile-1].myPiece && this.chessboard[kingRank-2][kingFile-1].myPiece.name == 'Knight' && this.chessboard[kingRank-2][kingFile-1].myPiece.owner != color) {
