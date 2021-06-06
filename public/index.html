@@ -11,28 +11,27 @@
   </head>
   <body>
     <h1>Fullstack Gambit</h1>
-    <div class="buttonDisplay">
-      <button id="joinGameButton">Join Game</button>
-      <button id="readyButton">Ready</button>
-    </div>
-    <div class="playerDisplay">
-      <div class="player p1">
-        Player 1
+
+    <section class="flex-container">
+      <button class="flex-item" id="joinGameButton">Join Game</button>
+      <button class="flex-item" id="readyButton">Ready</button>
+      <div class="player p1 flex-item">
+        Player 1 (WHITE)
         <div class="connected">Connected <span></span></div>
         <div class="ready">Ready <span></span></div>
       </div>
-      <div class="player p2">
-        Player 2
+      <div class="player p2 flex-item">
+        Player 2 (BLACK)
         <div class="connected">Connected <span></span></div>
         <div class="ready">Ready <span></span></div>
       </div>
-    </div>
+    <section>
 
     
 
     
-    <p id="infoMessage"></p>
-    <p id="turnMessage"></p>
+    <p class="msg" id="infoMessage"></p>
+    <p class="msg" id="turnMessage"></p>
 
     <div class="container">
       <div class="grid"></div>
