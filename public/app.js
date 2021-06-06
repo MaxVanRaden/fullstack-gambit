@@ -177,19 +177,21 @@ document.addEventListener("DOMContentLoaded", () => {
             square.dataset.file = j;
             if(piece != null){
                 square.innerHTML = `${piece.name}${((i*width)+j)}`;
+                square.classList.add(piece.name);
             }
             if(pos%2!=0){
-                square.classList.toggle("white");
+                square.classList.add("white");
             }else{
-                square.classList.toggle("black");
+                square.classList.add("black");
             }
             if(piece != null){
                 if(piece.owner){
-                    square.classList.toggle("player1");
+                    square.classList.add("player1");
                 }else{
-                    square.classList.toggle("player2");
+                    square.classList.add("player2");
                 }
             }   
+
             pos++;
             grid.appendChild(square);
             squares.push(square);
