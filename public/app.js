@@ -753,6 +753,7 @@ class board {
 
           //Check the diagonals 
           for(let i = kingRank+1; i < 8; ++i){
+              var isChecked = 1;
               for(let k = kingFile+1; k < 8; ++k) {
                   if(Math.abs(kingRank - i) == Math.abs(kingFile - k)){
                     if(this.chessboard[i][k].myPiece != null) {
@@ -768,13 +769,18 @@ class board {
                         return -6; //king is in check
                       }
                       else {//king is not in check in this direction
+                          isChecked = 0;
                           break;
                       }
                   }
                 }
               }
+              if(isChecked == 0) {
+                  break;
+              }
           }
           for(let i = kingRank-1; i >= 0; --i){
+            var isChecked = 1;
               for(let k = kingFile+1; k < 8; ++k) {
                 if(Math.abs(kingRank - i) == Math.abs(kingFile - k)){
                   if(this.chessboard[i][k].myPiece != null) {
@@ -795,8 +801,12 @@ class board {
                   }
                 }
               }
+              if(isChecked == 0) {
+                break;
+              }
           }
           for(let i = kingRank+1; i < 8; ++i){
+            var isChecked = 1;
               for(let k = kingFile-1; k >= 0; --k) {
                 if(Math.abs(kingRank - i) == Math.abs(kingFile - k)){
                   if(this.chessboard[i][k].myPiece != null) {
@@ -817,8 +827,12 @@ class board {
                   }
                 }
               }
+              if(isChecked == 0) {
+                break;
+              }
           }
           for(let i = kingRank-1; i >= 0; --i){
+            var isChecked = 1;
               for(let k = kingFile-1; k >= 0; --k) {
                 if(Math.abs(kingRank - i) == Math.abs(kingFile - k)){
                   if(this.chessboard[i][k].myPiece != null) {
@@ -838,6 +852,9 @@ class board {
                       }
                   }
                 }
+              }
+              if(isChecked == 0) {
+                break;
               }
           }
       //TODO determine if having this separate version for the king moving is necessary or not. It may make more sense to move the "check check" to a separate function that's called as needed
