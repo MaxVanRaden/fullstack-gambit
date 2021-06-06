@@ -74,11 +74,11 @@ document.addEventListener("DOMContentLoaded", () => {
             if(currentPlayer === 'user' && ready && enemyReady){
                 if(firstClick === -1){
                     firstClick = square.dataset.id;
-                    squares[firstClick].classList.toggle("green");
+                    squares[firstClick].classList.add("clicked");
                     return;
                 }
                 if(square.dataset.id === firstClick){
-                    squares[firstClick].classList.toggle("green");
+                    squares[firstClick].classList.remove("clicked");
                     firstClick = -1;
                     return;
                 }
@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             break;
                     }
                 }
-                squares[firstClick].classList.toggle("green");
+                squares[firstClick].classList.remove("clicked");
                 firstClick = -1;
                 secondClick = -1;
             }
@@ -176,7 +176,6 @@ document.addEventListener("DOMContentLoaded", () => {
             square.dataset.rank = i;
             square.dataset.file = j;
             if(piece != null){
-                square.innerHTML = `${piece.name}${((i*width)+j)}`;
                 square.classList.add(piece.name);
             }
             if(pos%2!=0){

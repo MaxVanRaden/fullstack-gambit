@@ -14,8 +14,6 @@ body {
   margin: 0 auto;
 }
 
-
-
 .grid div {
   width: 100px;
   height: 100px;
@@ -32,9 +30,7 @@ body {
   color: burlywood;
 }
 
-.green {
-  background: green;
-}
+
 
 
 .Pawn.player2 {
@@ -83,6 +79,11 @@ body {
 
 .King.player1 {
   background: currentColor url(Chess-Sprites.png) 0px 0px;
+}
+
+.clicked {
+  outline: 2px solid red;
+  outline-offset: -2px;
 }
 
 .connected,
