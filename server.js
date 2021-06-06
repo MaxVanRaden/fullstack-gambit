@@ -72,14 +72,12 @@ io.on("connection", (socket) => {
     socket.emit("check-players", players);
   });
 
-  socket.on("move", (id) => {
-    console.log(`Space clicked from ${playerIndex}`, id);
-    socket.broadcast.emit("move", id);
+  socket.on("move", (clicks) => {
+    socket.broadcast.emit("move", clicks);
   });
 
-  socket.on("move-reply", (id) => {
-    console.log(id);
-    socket.broadcast.emit("move-reply", id);
+  socket.on("move-reply", () => {
+    socket.broadcast.emit("move-reply");
   });
 
   //Timeout if connection is longer than 10 minutes
