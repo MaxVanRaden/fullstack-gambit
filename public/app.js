@@ -93,9 +93,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 let result = gameboard.move(initRank, initFile, destRank, destFile, color);
 
                 if(result === 1){
-                    //socket.emit("move", {init: firstClick, dest: secondClick});
-                    updateBoard();
-                    window.alert("Made a valid move");
+                    let clicks = [firstClick, secondClick];
+                    socket.emit("move", clicks)
                 }else{
                     switch(result){
                         case -1:
@@ -141,16 +140,25 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     });
 
-    socket.on("move", (id) => {
-        squares[id].classList.toggle("green");
+    socket.on("move", (clicks) => {
+        let initRank = parseInt(squares[clicks[0]].dataset.rank);
+        let initFile = parseInt(squares[clicks[0]].dataset.file);
+        let destRank = parseInt(squares[clicks[1]].dataset.rank);
+        let destFile = parseInt(squares[clicks[1]].dataset.file);
+        let color = (playerNum != 0 ? true : false);
+        let result = gameboard.move(initRank, initFile, destRank, destFile, color);
+        if(result != 1){
+            window.alert("SOMETHING WENT VERY VERY WRONG");
+        }
+        updateBoard();
         currentPlayer = "user";
         turnDisplay.innerHTML = "Your Go";
-        socket.emit("move-reply", id);
+        socket.emit("move-reply");
         playGame(socket);
     });
 
-    socket.on("move-reply", (id) => {
-        squares[id].classList.toggle("green");
+    socket.on("move-reply", () => {
+        updateBoard();
         currentPlayer = "enemy";
         playGame(socket);
     });
