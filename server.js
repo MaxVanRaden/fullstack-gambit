@@ -72,6 +72,14 @@ io.on("connection", (socket) => {
     socket.emit("check-players", players);
   });
 
+  socket.on("move", (clicks) => {
+    socket.broadcast.emit("move", clicks);
+  });
+
+  socket.on("move-reply", () => {
+    socket.broadcast.emit("move-reply");
+  });
+
   //Timeout if connection is longer than 10 minutes
   setTimeout(() => {
     connections[playerIndex] = null;
