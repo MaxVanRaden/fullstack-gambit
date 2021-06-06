@@ -946,9 +946,9 @@ class board {
         let result = 0;
         result = this.check_move(initRank, initFile, destRank, destFile, color, 0, 0); // en passant not yet implemented
         if(result == 1) {
-            this.chessboard[destRank][destFile].myPiece = null;
-            this.chessboard[destRank][destFile].myPiece = chessboard[initRank][initFile].myPiece;
-            this.chessboard[initRank][initFile].myPiece = null;
+            chessboard[destRank][destFile].myPiece = null;
+            chessboard[destRank][destFile].myPiece = chessboard[initRank][initFile].myPiece;
+            chessboard[initRank][initFile].myPiece = null;
             return 1; // move valid and executed 
         }
         else if(result == 1) {
