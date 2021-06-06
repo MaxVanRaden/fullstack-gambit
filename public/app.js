@@ -204,18 +204,19 @@ document.addEventListener("DOMContentLoaded", () => {
           for(let j = 0; j < width; j++){
                 let pos = (i*width) + j;
                 let piece = gameboard.chessboard[i][j].myPiece
+                let curr = squares[pos];
                 if(piece == null){
-                    squares[pos].innerHTML = "";
+                    curr.innerHTML = "";
                 }else{
-                    squares[pos].innerHTML = `${piece.name}${((i*width)+j)}`;
+                    curr.innerHTML = `${piece.name}${((i*width)+j)}`;
                 }
                 if(piece != null){
                     if(piece.owner){
-                        squares[pos].classList.add("player1");
-                        squares[pos].classList.remove("player2");
+                        if(!curr.classList.contains("player1")) curr.classList.add("player1");
+                        if(curr.classList.contains("player2")) curr.classList.remove("player2");
                     }else{
-                        squares[pos].classList.add("player2");
-                        squares[pos].classList.remove("player1");
+                        if(!curr.classList.contains("player2")) curr.classList.add("player2");
+                        if(curr.classList.contains("player1")) curr.classList.remove("player1");
                     }
                 }   
           }
@@ -854,7 +855,8 @@ class board {
               }
 
               if(!(destRank === initRank+1 && destFile === initFile && this.chessboard[destRank][destFile].myPiece === null)
-               && !(destRank === initRank+1 && Math.abs(destFile - initFile) === 1 && this.chessboard[destRank][destFile.myPiece != null])){
+               && !(destRank === initRank+1 && Math.abs(destFile - initFile) === 1 && this.chessboard[destRank][destFile.myPiece != null])
+               && !(destRank === initRank+2 && destFile === initFile && this.chessboard[destRank][destFile].myPiece === null && this.chessboard[initRank][initFile].myPiece.hasMoved === false)){
                    return -8;
                }
 
@@ -872,15 +874,17 @@ class board {
           }
           //black pawn
           else if(this.chessboard[initRank][initFile].myPiece.owner == false) {
-              if(destRank == initRank-2 && this.chessboard[initRank][initFile].myPiece.hasMoved == false) {
-                  if(this.chessboard[initRank-1][initFile].myPiece != null) {
-                      return -7; //blocking piece 
-                  }
-              }
-              if(!(destRank === initRank-1 && destFile === initFile && this.chessboard[destRank][destFile].myPiece === null)
-               && !(destRank === initRank-1 && Math.abs(destFile - initFile) === 1 && this.chessboard[destRank][destFile.myPiece != null])){
-                   return -8;
-               }
+            if(destRank == initRank-2 && this.chessboard[initRank][initFile].myPiece.hasMoved == false) {
+                if(this.chessboard[initRank+1][initFile].myPiece != null) {
+                    return -7; //blocking piece 
+                }
+            }
+
+            if(!(destRank === initRank-1 && destFile === initFile && this.chessboard[destRank][destFile].myPiece === null)
+             && !(destRank === initRank-1 && Math.abs(destFile - initFile) === 1 && this.chessboard[destRank][destFile.myPiece != null])
+             && !(destRank === initRank-2 && destFile === initFile && this.chessboard[destRank][destFile].myPiece === null && this.chessboard[initRank][initFile].myPiece.hasMoved === false)){
+                 return -8;
+             }
           }
       }
       //knight move rules 
