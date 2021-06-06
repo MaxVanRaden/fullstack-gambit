@@ -1095,6 +1095,9 @@ class board {
         this.chessboard[destRank][destFile].myPiece = null;
         this.chessboard[destRank][destFile].myPiece = this.chessboard[initRank][initFile].myPiece;
         this.chessboard[initRank][initFile].myPiece = null;
+        if(this.chessboard[destRank][destFile].myPiece.name == 'Pawn' && (destRank == 7 || destRank == 1)) { //Pawns auto-promote to queens on rank 8 and 1 
+            this.chessboard[destRank][destFile].myPiece.name = 'Queen';
+        }
         return 1; // move valid and executed 
     }
     else if(result == 0) {
