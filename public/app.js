@@ -202,24 +202,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateBoard(){
       for(let i = 0; i < width; i++){
+          let pos = i;
           for(let j = 0; j < width; j++){
-                let pos = (i*width) + j;
+                let index = (i*width) + j;
                 let piece = gameboard.chessboard[i][j].myPiece
-                let curr = squares[pos];
-                if(piece == null){
-                    curr.innerHTML = "";
+                let curr = squares[index];
+                curr.className = '';
+                if(pos%2!=0){
+                    curr.classList.add("white");
                 }else{
-                    curr.innerHTML = `${piece.name}${((i*width)+j)}`;
+                    curr.classList.add("black");
                 }
                 if(piece != null){
+                    curr.classList.add(piece.name);
                     if(piece.owner){
-                        if(!curr.classList.contains("player1")) curr.classList.add("player1");
-                        if(curr.classList.contains("player2")) curr.classList.remove("player2");
+                        curr.classList.add("player1");
                     }else{
-                        if(!curr.classList.contains("player2")) curr.classList.add("player2");
-                        if(curr.classList.contains("player1")) curr.classList.remove("player1");
+                        curr.classList.add("player2");
                     }
-                }   
+                }  
+                pos++; 
           }
       }
   }
