@@ -1,5 +1,6 @@
 body {
-  background-color: burlywood;
+  background-color: rgb(37, 24, 7);
+  color: white;
 }
 .container {
   display: flex;
@@ -22,27 +23,66 @@ body {
 }
 
 .black {
-  background-color:black;
-}
-
-.white {
-  background-color: white;
-}
-
-.green {
-  background-color: green;
-}
-
-.player1 {
+  background:green;
   color: green;
 }
 
-.player2 { 
-  color: red;
+.white {
+  background: burlywood;
+  color: burlywood;
 }
 
-.Pawn {
-  background: url(Chess-Sprites.png) -500px -100px;
+.green {
+  background: green;
+}
+
+
+.Pawn.player2 {
+  background: currentColor url(Chess-Sprites.png) -500px -100px;
+}
+
+.Rook.player2 {
+  background: currentColor url(Chess-Sprites.png) -400px -100px;
+}
+
+.Knight.player2 {
+  background: currentColor url(Chess-Sprites.png) -300px -100px;
+}
+
+.Bishop.player2 {
+  background: currentColor url(Chess-Sprites.png) -200px -100px;
+}
+
+.Queen.player2 {
+  background: currentColor url(Chess-Sprites.png) -100px -100px;
+}
+
+.King.player2 {
+  background: currentColor url(Chess-Sprites.png) 0px -100px;
+}
+
+.Pawn.player1 {
+  background: currentColor url(Chess-Sprites.png) -500px 0px;
+}
+
+.Rook.player1 {
+  background: currentColor url(Chess-Sprites.png) -400px 0px;
+}
+
+.Knight.player1 {
+  background: currentColor url(Chess-Sprites.png) -300px 0px;
+}
+
+.Bishop.player1 {
+  background: currentColor url(Chess-Sprites.png) -200px 0px;
+}
+
+.Queen.player1 {
+  background: currentColor url(Chess-Sprites.png) -100px 0px;
+}
+
+.King.player1 {
+  background: currentColor url(Chess-Sprites.png) 0px 0px;
 }
 
 .connected,
