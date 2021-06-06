@@ -98,34 +98,34 @@ document.addEventListener("DOMContentLoaded", () => {
                 }else{
                     switch(result){
                         case -1:
-                            window.alert("No Piece");
+                            window.alert("You do not have a piece selected");
                             break;
                         case -2:
-                            window.alert("Out of bounds");
+                            window.alert("The destination or origin square is out of bounds");
                             break;
                         case -3:
-                            window.alert("Not moving");
+                            window.alert("You cannot move a piece to the square it is currently on");
                             break;
                         case -4:
-                            window.alert("Self Capture");
+                            window.alert("You cannot capture your own piece");
                             break;
                         case -5:
-                            window.alert("Pinned");
+                            window.alert("You cannot move a piece that is pinned to your King");
                             break;
                         case -6:
-                            window.alert("In check");
+                            window.alert("Your king is either in check, or this move would place it in check");
                             break;
                         case -7:
-                            window.alert("Blocking Piece");
+                            window.alert("Your piece's path to that square is blocked by another piece");
                             break;
                         case -8:
-                            window.alert("Piece-Specific move rule");
+                            window.alert("That is not how that piece moves");
                             break;
                         case -9:
                             window.alert("Unrecognized piece type");
                             break;
                         case -10:
-                            window.alert("Other plyers piece");
+                            window.alert("You cannot move the other player's piece");
                             break;
                         default:
                             console.log(result);
@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         updateBoard();
         currentPlayer = "user";
-        turnDisplay.innerHTML = "Your Go";
+        turnDisplay.innerHTML = "Your Move";
         socket.emit("move-reply");
         playGame(socket);
     });
@@ -245,10 +245,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (enemyReady) {
       if (currentPlayer === "user") {
-        turnDisplay.innerHTML = "Your Go";
+        turnDisplay.innerHTML = "It is your turn";
       }
       if (currentPlayer === "enemy") {
-        turnDisplay.innerHTML = "Enemy's Go";
+        turnDisplay.innerHTML = "It is your enemy's turn";
       }
     }
   }
@@ -387,8 +387,9 @@ class board {
           }
       }
       //
-      // Pin check - separated because big function
-      //
+      // Pin check - separated because big function 
+      // SEEMS TO BE UNNECCESSARY AFTER ADJUSTMENTS TO THE CHECK FUNCTION
+      /*
       if(this.chessboard[initRank][initFile].myPiece.owner != 'King') { //A king cannot be pinned to itself, so skip this if the king moves 
           let kingFile = -1;
           let kingRank = -1;
@@ -649,6 +650,7 @@ class board {
           }
 
       }
+      */
       //
       // Check check for pieces - separated because big function
       //
