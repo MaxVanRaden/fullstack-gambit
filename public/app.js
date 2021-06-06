@@ -855,7 +855,7 @@ class board {
               }
 
               if(!(destRank === initRank+1 && destFile === initFile && this.chessboard[destRank][destFile].myPiece === null)
-               && !(destRank === initRank+1 && Math.abs(destFile - initFile) === 1 && this.chessboard[destRank][destFile.myPiece != null])
+               && !(destRank === initRank+1 && Math.abs(destFile - initFile) === 1 && this.chessboard[destRank][destFile].myPiece != null)
                && !(destRank === initRank+2 && destFile === initFile && this.chessboard[destRank][destFile].myPiece === null && this.chessboard[initRank][initFile].myPiece.hasMoved === false)){
                    return -8;
                }
@@ -881,7 +881,7 @@ class board {
             }
 
             if(!(destRank === initRank-1 && destFile === initFile && this.chessboard[destRank][destFile].myPiece === null)
-             && !(destRank === initRank-1 && Math.abs(destFile - initFile) === 1 && this.chessboard[destRank][destFile.myPiece != null])
+             && !(destRank === initRank-1 && Math.abs(destFile - initFile) === 1 && this.chessboard[destRank][destFile].myPiece != null)
              && !(destRank === initRank-2 && destFile === initFile && this.chessboard[destRank][destFile].myPiece === null && this.chessboard[initRank][initFile].myPiece.hasMoved === false)){
                  return -8;
              }
