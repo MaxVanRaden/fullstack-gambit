@@ -42,11 +42,7 @@ body {
 }
 
 .Pawn {
-  width: 80px;
-  height: 80px;
-  background-image: url('../images/Chess-Sprites.png');
-  margin: 0;
-  padding: 0;
+  background: url(Chess-Sprites.png) -500px -100px;
 }
 
 .connected,
