@@ -10,4 +10,4 @@ Outside resources used:
    
    https://github.com/kubowania/battleships/tree/multiplayer
     
-    We used this (same project as the Youtube video above) as a guide for setting up the initial websocket connection
+    We used this (same project as the Youtube video above) as a starting point for setting up the initial websocket connection
