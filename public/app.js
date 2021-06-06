@@ -881,6 +881,17 @@ class board {
                 break;
               }
           }
+          //Check for the other king putting the king in check
+          if((kingRank+1 <= 7 && kingFile+1 <= 7 && this.chessboard[kingRank+1][kingFile+1].myPiece && this.chessboard[kingRank+1][kingFile+1].myPiece.name == "King" && this.chessboard[kingRank+1][kingFile+1].myPiece.owner != color) ||
+             (kingRank+1 <= 7 && kingFile-1 >= 0 && this.chessboard[kingRank+1][kingFile-1].myPiece && this.chessboard[kingRank+1][kingFile-1].myPiece.name == "King" && this.chessboard[kingRank+1][kingFile-1].myPiece.owner != color) ||
+             (kingRank+1 <= 7 && this.chessboard[kingRank+1][kingFile].myPiece && this.chessboard[kingRank+1][kingFile].myPiece.name == "King" && this.chessboard[kingRank+1][kingFile].myPiece.owner != color) ||
+             (kingRank-1 >= 0 && this.chessboard[kingRank-1][kingFile].myPiece && this.chessboard[kingRank-1][kingFile].myPiece.name == "King" && this.chessboard[kingRank-1][kingFile].myPiece.owner != color) ||
+             (kingRank-1 >= 0 && kingFile+1 <= 7 && this.chessboard[kingRank-1][kingFile+1].myPiece && this.chessboard[kingRank-1][kingFile+1].myPiece.name == "King" && this.chessboard[kingRank-1][kingFile+1].myPiece.owner != color) ||
+             (kingRank-1 >= 0 && kingFile-1 >= 0 && this.chessboard[kingRank-1][kingFile-1].myPiece && this.chessboard[kingRank-1][kingFile-1].myPiece.name == "King" && this.chessboard[kingRank-1][kingFile-1].myPiece.owner != color) ||
+             (kingFile+1 <= 7 && this.chessboard[kingRank][kingFile+1].myPiece && this.chessboard[kingRank][kingFile+1].myPiece.name == "King" && this.chessboard[kingRank][kingFile+1].myPiece.owner != color) || 
+             (kingFile-1 >= 0 && this.chessboard[kingRank][kingFile-1].myPiece && this.chessboard[kingRank][kingFile-1].myPiece.name == "King" && this.chessboard[kingRank][kingFile-1].myPiece.owner != color)) {
+                 inCheck = 1;
+             }
           //reset board to original position
           if(!isKing) {
             this.chessboard[initRank][initFile].myPiece = temp;
