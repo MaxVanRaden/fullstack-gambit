@@ -939,8 +939,8 @@ class board {
           }
           //both negative 
           else if(rankDist < 0 && fileDist < 0) {
-              for(let i = initRank-1; i < destRank; --i) {
-                  for(let k = initFile-1; k < destFile; --k) {
+              for(let i = initRank-1; i > destRank; --i) {
+                  for(let k = initFile-1; k > destFile; --k) {
                       if(this.chessboard[i][k].myPiece != null) {
                           return -7; //blocking piece 
                       }
@@ -1027,8 +1027,8 @@ class board {
               }
               //both negative 
               if(rankDist < 0 && fileDist < 0) {
-                  for(let i = initRank-1; i < destRank; --i) {
-                      for(let k = initFile-1; k < destFile; --k) {
+                  for(let i = initRank-1; i > destRank; --i) {
+                      for(let k = initFile-1; k > destFile; --k) {
                           if(this.chessboard[i][k].myPiece != null) {
                               return -7; //blocking piece 
                           }
