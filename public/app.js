@@ -645,7 +645,7 @@ class board {
       //
           let kingRank = -1;
           let kingFile = -1;
-          if(this.chessboard[initRank][initFile].myPiece.owner == 'King'){
+          if(this.chessboard[initRank][initFile].myPiece.name == 'King'){
               kingRank = destRank;
               kingFile = destFile;
           }else{
