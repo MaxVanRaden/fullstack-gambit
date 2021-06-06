@@ -925,7 +925,7 @@ class board {
           //black pawn
           else if(this.chessboard[initRank][initFile].myPiece.owner == false) {
             if(destRank == initRank-2 && this.chessboard[initRank][initFile].myPiece.hasMoved == false) {
-                if(this.chessboard[initRank+1][initFile].myPiece != null) {
+                if(this.chessboard[initRank-1][initFile].myPiece != null) {
                     return -7; //blocking piece 
                 }
             }
