@@ -168,8 +168,9 @@ document.addEventListener("DOMContentLoaded", () => {
       document
         .querySelector(`${player} .connected span`)
         .classList.toggle("green");
-      if (parseInt(num) === playerNum)
+      if (parseInt(num) === playerNum){
         document.querySelector(player).style.fontWeight = "bold";
+        }
     }
   }
 
