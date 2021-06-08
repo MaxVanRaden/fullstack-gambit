@@ -300,11 +300,11 @@ class board {
       ]
   }
   initialize() {//multipurpose function - clears board and resets it to default position
-    //   for(let let i = 0; i < 8; ++i) {
-    //       for(let let k = 0; k < 8; ++i) {
-    //           this.chessboard[i][k].myPiece = null;
-    //       }
-    //   }
+       for(let i = 0; i < 8; ++i) {
+           for(let k = 0; k < 8; ++k) {
+               this.chessboard[i][k].myPiece = null;
+           }
+       }
       for(let i = 0; i < 8; i++) {
           for(let k = 0; k < 8; k++) {
               if(i == 0) { //rank is 1, white backrank 
