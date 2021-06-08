@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const turnDisplay = document.querySelector("#turnMessage");
   const joinGameButton = document.querySelector("#joinGameButton");
   const readyButton = document.querySelector("#readyButton");
+  const resetButton = document.querySelector("#resetButton");
   const squares = [];
   const width = 8;
   let currentPlayer = "user";
@@ -68,6 +69,37 @@ document.addEventListener("DOMContentLoaded", () => {
         playGame(socket);
     });
 
+    //When the player clicks Concede and Reset
+    resetButton.addEventListener("click", () =>{
+        if(currentPlayer === "user" && ready && enemyReady){
+            window.alert("You have resigned. Board is reset");
+            resetBoard();
+            socket.emit("reset");
+        }else{
+            window.alert("Cant reset yet");
+        }
+    });
+
+    socket.on("reset", () => {
+        window.alert("The enemy has resigned. Board is reset.")
+        resetBoard();
+    });
+
+    function resetBoard() {
+        gameboard.initialize();
+        updateBoard();
+        if(playerNum === 0){
+            currentPlayer = "user";
+            playGame(socket);
+        }else if(playerNum === 1){
+            currentPlayer = "enemy";
+            playGame(socket);
+        }else{
+            window.alert("Something went wrong");
+            console.log("error in resetBoard");
+        }
+    }
+
     //Add event listeners to each square to know what move the user wants.
     squares.forEach(square => {
         square.addEventListener('click', () => {
@@ -94,7 +126,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if(result === 1){
                     let clicks = [firstClick, secondClick];
-                    socket.emit("move", clicks)
+                    updateBoard();
+                    socket.emit("move", clicks);
                 }else{
                     switch(result){
                         case -1:
@@ -168,8 +201,9 @@ document.addEventListener("DOMContentLoaded", () => {
       document
         .querySelector(`${player} .connected span`)
         .classList.toggle("green");
-      if (parseInt(num) === playerNum)
+      if (parseInt(num) === playerNum){
         document.querySelector(player).style.fontWeight = "bold";
+        }
     }
   }
 
@@ -299,11 +333,6 @@ class board {
       ]
   }
   initialize() {//multipurpose function - clears board and resets it to default position
-    //   for(let let i = 0; i < 8; ++i) {
-    //       for(let let k = 0; k < 8; ++i) {
-    //           this.chessboard[i][k].myPiece = null;
-    //       }
-    //   }
       for(let i = 0; i < 8; i++) {
           for(let k = 0; k < 8; k++) {
               if(i == 0) { //rank is 1, white backrank 
@@ -323,13 +352,13 @@ class board {
                       this.chessboard[i][k].myPiece = new piece(true, Infinity, 'King');
                   }
               }
-              if(i == 1) { //Rank 2, white pawns 
+              else if(i == 1) { //Rank 2, white pawns 
                   this.chessboard[i][k].myPiece = new piece(true, 1, 'Pawn');
               }
-              if(i == 6) { //Rank 7, black pawns
+              else if(i == 6) { //Rank 7, black pawns
                   this.chessboard[i][k].myPiece = new piece(false, 1, 'Pawn');
               }
-              if(i == 7) { //rank is 8, black backrank 
+              else if(i == 7) { //rank is 8, black backrank 
                   if(k == 0 || k == 7) { // A8 and H8, black rooks
                       this.chessboard[i][k].myPiece = new piece(false, 5, 'Rook');
                   }
@@ -345,6 +374,9 @@ class board {
                   if(k == 4) { // E8, black king
                       this.chessboard[i][k].myPiece = new piece(false, Infinity, 'King');
                   }
+              }
+              else{
+                this.chessboard[i][k].myPiece = null;
               }
           }
       }
@@ -1158,7 +1190,7 @@ class board {
         this.chessboard[destRank][destFile].myPiece = null;
         this.chessboard[destRank][destFile].myPiece = this.chessboard[initRank][initFile].myPiece;
         this.chessboard[initRank][initFile].myPiece = null;
-        if(this.chessboard[destRank][destFile].myPiece.name == 'Pawn' && (destRank == 7 || destRank == 1)) { //Pawns auto-promote to queens on rank 8 and 1 
+        if(this.chessboard[destRank][destFile].myPiece.name == 'Pawn' && (destRank == 7 || destRank == 0)) { //Pawns auto-promote to queens on rank 8 and 1 
             this.chessboard[destRank][destFile].myPiece.name = 'Queen';
         }
         return 1; // move valid and executed 

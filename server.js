@@ -72,6 +72,10 @@ io.on("connection", (socket) => {
     socket.emit("check-players", players);
   });
 
+  socket.on("reset", () => {
+    socket.broadcast.emit("reset");
+  })
+
   socket.on("move", (clicks) => {
     socket.broadcast.emit("move", clicks);
   });

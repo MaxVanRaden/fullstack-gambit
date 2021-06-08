@@ -1,13 +1,52 @@
 body {
   min-width: 850px;
-  background-color: rgb(37, 24, 7);
-  color: white;
+  background-color: rgb(121, 87, 42);
   font-size: 1.25rem;
-}
-
-h1 {
   text-align: center;
 }
+
+ footer {
+  width: 100vw;
+ }
+
+.about {
+  width: 50vw;
+  font-size: 1.5rem;
+  margin: auto;
+  text-align: justify;
+  background-color: rgb(62, 37, 11);
+  border-radius: 15px;
+  padding: 5px 30px 30px 30px;
+  margin-top: 30px;
+  color: black;
+}
+
+.about h1 {
+  text-align: center;
+}
+
+
+img {
+  display: block;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+button {
+  border-radius: 12px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+a:hover {
+  color: gray;
+}
+
 
 
 .flex-container {
@@ -18,9 +57,9 @@ h1 {
 }
 
 .flex-item {
-  width: 50%;
-  padding: 10px 0;
-  margin: 10px 0;
+  width: 25%;
+  padding: 10px 0px;
+  margin: 10px 30px;
   background-color: gray;
   text-align: center;
   font-size: 1em;
