@@ -116,7 +116,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if(result === 1){
                     let clicks = [firstClick, secondClick];
-                    socket.emit("move", clicks)
+                    updateBoard();
+                    socket.emit("move", clicks);
                 }else{
                     switch(result){
                         case -1:
