@@ -2,7 +2,24 @@ body {
   min-width: 850px;
   background-color: rgb(121, 87, 42);
   font-size: 1.25rem;
+  text-align: center;
 }
+
+.about {
+  width: 50vw;
+  font-size: 1.5rem;
+  margin: auto;
+  text-align: justify;
+  background-color: rgb(62, 37, 11);
+  border-radius: 15px;
+  padding: 5px 30px 30px 30px;
+  margin-top: 30px;
+}
+
+.about h1 {
+  text-align: center;
+}
+
 
 img {
   display: block;
@@ -13,6 +30,12 @@ img {
 
 button {
   border-radius: 12px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
 }
 
 
