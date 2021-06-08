@@ -88,6 +88,16 @@ document.addEventListener("DOMContentLoaded", () => {
     function resetBoard() {
         gameboard.initialize();
         updateBoard();
+        if(playerNum === 0){
+            currentPlayer = "user";
+            playGame(socket);
+        }else if(playerNum === 1){
+            currentPlayer = "enemy";
+            playGame(socket);
+        }else{
+            window.alert("Something went wrong");
+            console.log("error in resetBoard");
+        }
     }
 
     //Add event listeners to each square to know what move the user wants.
