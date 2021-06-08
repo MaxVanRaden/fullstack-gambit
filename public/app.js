@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //When the player clicks Concede and Reset
     resetButton.addEventListener("click", () =>{
         if(currentPlayer === "user" && ready && enemyReady){
-            window.alert("You have conceded. Board is reset");
+            window.alert("You have resigned. Board is reset");
             resetBoard();
             socket.emit("reset");
         }else{
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     socket.on("reset", () => {
-        window.alert("The other player has conceded. Board is reset.")
+        window.alert("The enemy has resigned. Board is reset.")
         resetBoard();
     });
 
