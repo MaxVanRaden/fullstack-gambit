@@ -5,6 +5,10 @@ body {
   text-align: center;
 }
 
+ footer {
+  width: 100vw;
+ }
+
 .about {
   width: 50vw;
   font-size: 1.5rem;
@@ -53,7 +57,7 @@ a:hover {
 }
 
 .flex-item {
-  width: 45%;
+  width: 25%;
   padding: 10px 0px;
   margin: 10px 30px;
   background-color: gray;

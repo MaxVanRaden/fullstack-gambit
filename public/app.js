@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const turnDisplay = document.querySelector("#turnMessage");
   const joinGameButton = document.querySelector("#joinGameButton");
   const readyButton = document.querySelector("#readyButton");
+  const resetButton = document.querySelector("#resetButton");
   const squares = [];
   const width = 8;
   let currentPlayer = "user";
@@ -67,6 +68,27 @@ document.addEventListener("DOMContentLoaded", () => {
     readyButton.addEventListener("click", () => {
         playGame(socket);
     });
+
+    //When the player clicks Concede and Reset
+    resetButton.addEventListener("click", () =>{
+        if(currentPlayer === "user" && ready && enemyReady){
+            window.alert("You have conceded. Board is reset");
+            resetBoard();
+            socket.emit("reset");
+        }else{
+            window.alert("Cant reset yet");
+        }
+    });
+
+    socket.on("reset", () => {
+        window.alert("The other player has conceded. Board is reset.")
+        resetBoard();
+    });
+
+    function resetBoard() {
+        gameboard.initialize();
+        updateBoard();
+    }
 
     //Add event listeners to each square to know what move the user wants.
     squares.forEach(square => {
@@ -324,13 +346,13 @@ class board {
                       this.chessboard[i][k].myPiece = new piece(true, Infinity, 'King');
                   }
               }
-              if(i == 1) { //Rank 2, white pawns 
+              else if(i == 1) { //Rank 2, white pawns 
                   this.chessboard[i][k].myPiece = new piece(true, 1, 'Pawn');
               }
-              if(i == 6) { //Rank 7, black pawns
+              else if(i == 6) { //Rank 7, black pawns
                   this.chessboard[i][k].myPiece = new piece(false, 1, 'Pawn');
               }
-              if(i == 7) { //rank is 8, black backrank 
+              else if(i == 7) { //rank is 8, black backrank 
                   if(k == 0 || k == 7) { // A8 and H8, black rooks
                       this.chessboard[i][k].myPiece = new piece(false, 5, 'Rook');
                   }
@@ -346,6 +368,8 @@ class board {
                   if(k == 4) { // E8, black king
                       this.chessboard[i][k].myPiece = new piece(false, Infinity, 'King');
                   }
+              }else{
+                this.chessboard[i][k].myPiece = null;
               }
           }
       }
