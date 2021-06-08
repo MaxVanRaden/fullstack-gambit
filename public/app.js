@@ -994,8 +994,8 @@ class board {
       //bishop move rules
       else if(this.chessboard[initRank][initFile].myPiece.name == 'Bishop') {
           validPiece = 1;
-          var rankDist = initRank - destRank;
-          var fileDist = initFile - destFile;
+          var rankDist = destRank - initRank;
+          var fileDist = destFile - initFile;
           if(rankDist != fileDist && rankDist != -fileDist) {
               return -8; //piece-specific move error 
           }
@@ -1085,8 +1085,8 @@ class board {
       //queen move rules
       else if(this.chessboard[initRank][initFile].myPiece.name == 'Queen') {
           validPiece = 1;
-          var rankDist = initRank - destRank;
-          var fileDist = initFile - destFile;
+          var rankDist = destRank - initRank;
+          var fileDist = destFile - initFile;
           //bishop type movement
           if(rankDist == fileDist || rankDist == -fileDist) {   
               if(rankDist > 0 && fileDist > 0) {
